@@ -17,9 +17,10 @@ function courseTitle(courseId: string) {
 }
 
 /** 공개 아카이브 배열 → 커뮤니티 피드 카드 데이터 */
-function publicArchivesToFeedPosts(publicArchives: { id: string; items: { courseId: string; teaName?: string; memo?: string; teaType?: string; mood?: string; origin?: string; brandOrPurchase?: string; photoDataUrl?: string | null }[] }[]): { post: CommunityPost; href: string }[] {
+function publicArchivesToFeedPosts(publicArchives: { id: string; authorDisplayName?: string | null; items: { courseId: string; teaName?: string; memo?: string; teaType?: string; mood?: string; origin?: string; brandOrPurchase?: string; photoDataUrl?: string | null }[] }[]): { post: CommunityPost; href: string }[] {
   const items: { post: CommunityPost; href: string }[] = []
   for (const a of publicArchives) {
+    const author = a.authorDisplayName ?? null
     a.items.forEach((it, idx) => {
       const titleValue = isManualItem(it)
         ? (it.teaName ?? (it.memo || "이름 없음"))
@@ -34,6 +35,7 @@ function publicArchivesToFeedPosts(publicArchives: { id: string; items: { course
           origin: isManualItem(it) ? (it.origin ?? "—") : "—",
           brandOrPurchase: isManualItem(it) ? (it.brandOrPurchase ?? "—") : "—",
           imageUrl: it.photoDataUrl ?? null,
+          authorDisplayName: author,
         },
         href: `/archive/${a.id}/${idx}`,
       })
@@ -43,7 +45,7 @@ function publicArchivesToFeedPosts(publicArchives: { id: string; items: { course
 }
 
 export default function CommunityPage() {
-  const [apiPublicArchives, setApiPublicArchives] = React.useState<{ id: string; items: { courseId: string; teaName?: string; memo?: string; teaType?: string; mood?: string; origin?: string; brandOrPurchase?: string; photoDataUrl?: string | null }[] }[]>([])
+  const [apiPublicArchives, setApiPublicArchives] = React.useState<{ id: string; authorDisplayName?: string | null; items: { courseId: string; teaName?: string; memo?: string; teaType?: string; mood?: string; origin?: string; brandOrPurchase?: string; photoDataUrl?: string | null }[] }[]>([])
   const localPublic = getPublicArchives()
   React.useEffect(() => {
     fetch("/api/archives/public")
@@ -64,7 +66,7 @@ export default function CommunityPage() {
     <div className="min-h-dvh bg-white text-black">
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-4">
-        <h1 className="font-noto-sans mb-3 text-[16px] font-semibold tracking-[0.12em] uppercase text-black/80">
+        <h1 className="font-noto-sans mb-3 text-[16px] font-semibold tracking-[0.12em] uppercase text-black">
           Community
         </h1>
         <div className="grid grid-cols-2 gap-3">

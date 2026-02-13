@@ -12,12 +12,16 @@ create table if not exists public.profiles (
   updated_at timestamptz default now()
 );
 
--- 새 가입 시 프로필 자동 생성
+-- 새 가입 시 프로필 자동 생성 (닉네임은 raw_user_meta_data.display_name)
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, email)
-  values (new.id, new.email);
+  insert into public.profiles (id, email, display_name)
+  values (
+    new.id,
+    new.email,
+    nullif(trim(new.raw_user_meta_data->>'display_name'), '')
+  );
   return new;
 end;
 $$ language plpgsql security definer;
@@ -79,8 +83,10 @@ alter table public.profiles enable row level security;
 alter table public.archives enable row level security;
 alter table public.archive_items enable row level security;
 
--- profiles: 본인만 읽기/수정
+-- profiles: 본인만 읽기/수정, 공개 아카이브 보유자는 누구나 읽기(커뮤니티 작성자 표시)
 create policy "profiles_select_own" on public.profiles for select using (auth.uid() = id);
+create policy "profiles_select_public_owners" on public.profiles for select
+  using (id in (select user_id from public.archives where is_public = true));
 create policy "profiles_update_own" on public.profiles for update using (auth.uid() = id);
 
 -- archives: 본인 것만 insert/update/delete, select는 본인 + 공개

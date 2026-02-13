@@ -13,7 +13,21 @@ export async function GET(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+  if (!user) {
+    return NextResponse.json({ user: null })
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("display_name")
+    .eq("id", user.id)
+    .single()
+
   return NextResponse.json({
-    user: user ? { id: user.id, email: user.email ?? null } : null,
+    user: {
+      id: user.id,
+      email: user.email ?? null,
+      displayName: profile?.display_name ?? null,
+    },
   })
 }

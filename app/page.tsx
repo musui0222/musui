@@ -16,12 +16,39 @@ const TEA_COURSE: Item[] = [
   { id: "course-3", title: "Tea Course 03", subtitle: "Archive-ready" },
 ]
 
+function PosterCard({
+  item,
+  href,
+  posterNode,
+}: {
+  item: Item
+  href: string
+  posterNode: React.ReactNode
+}) {
+  return (
+    <Link href={href} className="group block">
+      <div className="mx-auto w-full max-w-[140px] overflow-hidden border border-black/10 bg-white">
+        {posterNode}
+      </div>
+      <div className="mt-2 text-center">
+        <div className="text-[12px] font-medium tracking-[0.02em] text-black">
+          {item.title}
+        </div>
+        {item.subtitle && (
+          <div className="mt-0.5 text-[11px] tracking-[0.04em] text-black/55">
+            {item.subtitle}
+          </div>
+        )}
+      </div>
+    </Link>
+  )
+}
+
 function PosterPlaceholder({ label }: { label: string }) {
   return (
-    <div className="relative w-full overflow-hidden border border-black/15 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)]">
-      <div className="aspect-[3/4] w-full" />
-      <div className="absolute inset-0 flex items-start justify-start p-4">
-        <div className="text-[12px] tracking-[0.12em] text-black/35">{label}</div>
+    <div className="relative aspect-[3/4] w-full bg-black/[0.04]">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-[10px] tracking-[0.08em] text-black/30">{label}</span>
       </div>
     </div>
   )
@@ -33,68 +60,44 @@ export default function HomePage() {
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-8">
         <section className="mb-10">
-          <div className="mb-4 flex items-end justify-between">
-            <h2 className="text-[18px] font-semibold tracking-[0.18em] uppercase">Tea</h2>
-            <span className="text-[12px] tracking-[0.12em] text-black/45">
-              products · 4 items
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <h2 className="font-noto-sans mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
+            Tea
+          </h2>
+          <div className="grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3">
             {TEA.map((item) => (
-              <Link key={item.id} href={`/tea/${item.id}`} className="group">
-                <div className="w-full overflow-hidden border border-black/15 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)]">
-                  {item.poster ? (
+              <PosterCard
+                key={item.id}
+                item={item}
+                href={`/tea/${item.id}`}
+                posterNode={
+                  item.poster ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={item.poster}
                       alt=""
-                      className="block w-full h-auto align-top"
+                      className="block w-full object-contain"
                     />
                   ) : (
-                    <div className="aspect-[3/4] w-full flex items-center justify-center bg-black/5">
-                      <span className="text-[12px] tracking-[0.12em] text-black/35">TEA POSTER</span>
-                    </div>
-                  )}
-                </div>
-                <div className="mt-3">
-                  <div className="text-[14px] font-semibold tracking-[0.04em]">
-                    {item.title}
-                  </div>
-                  {item.subtitle && (
-                    <div className="mt-1 text-[12px] tracking-[0.08em] text-black/55">
-                      {item.subtitle}
-                    </div>
-                  )}
-                </div>
-              </Link>
+                    <PosterPlaceholder label="TEA POSTER" />
+                  )
+                }
+              />
             ))}
           </div>
         </section>
 
         <section>
-          <div className="mb-4 flex items-end justify-between">
-            <h2 className="text-[18px] font-semibold tracking-[0.18em] uppercase">TeaCourse</h2>
-            <span className="text-[12px] tracking-[0.12em] text-black/45">
-              courses · 3 items
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          <h2 className="font-noto-sans mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
+            Tea Course
+          </h2>
+          <div className="grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3">
             {TEA_COURSE.map((item) => (
-              <Link key={item.id} href={`/courses/${item.id}`} className="group">
-                <PosterPlaceholder label="TEA COURSE POSTER" />
-                <div className="mt-3">
-                  <div className="text-[14px] font-semibold tracking-[0.04em]">
-                    {item.title}
-                  </div>
-                  {item.subtitle && (
-                    <div className="mt-1 text-[12px] tracking-[0.08em] text-black/55">
-                      {item.subtitle}
-                    </div>
-                  )}
-                </div>
-              </Link>
+              <PosterCard
+                key={item.id}
+                item={item}
+                href={`/session?course=${encodeURIComponent(item.id)}`}
+                posterNode={<PosterPlaceholder label="TEA COURSE POSTER" />}
+              />
             ))}
           </div>
         </section>

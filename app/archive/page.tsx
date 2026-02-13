@@ -19,8 +19,19 @@ function AddButton() {
 }
 
 export default function ArchivePage() {
+  const [user, setUser] = React.useState<{ id: string } | null>(null)
+  const [authLoading, setAuthLoading] = React.useState(true)
   const [archives, setArchives] = React.useState<SessionArchive[]>([])
   const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    fetch("/api/auth/user")
+      .then((res) => res.json())
+      .then((data: { user: { id: string } | null }) => {
+        setUser(data.user)
+      })
+      .finally(() => setAuthLoading(false))
+  }, [])
 
   const fetchArchives = React.useCallback(async () => {
     try {
@@ -68,11 +79,23 @@ export default function ArchivePage() {
     }))
   )
 
+  if (!authLoading && !user) {
+    return (
+      <Shell title="My Archive" subtitle="">
+        <div className="rounded border border-black/12 bg-black/[0.02] px-4 py-5 text-center">
+          <p className="text-[13px] text-black/80">
+            마이 아카이브는 로그인 후 이용할 수 있습니다.
+          </p>
+        </div>
+      </Shell>
+    )
+  }
+
   return (
     <Shell
       title="My Archive"
       subtitle="세션종료시 자동으로 기록이 저장됩니다. + 버튼으로 새로운 찻자리 기록을 저장할 수 있습니다."
-      rightAction={<AddButton />}
+      rightAction={user ? <AddButton /> : undefined}
     >
       {loading ? (
         <div className="grid grid-cols-2 gap-3">

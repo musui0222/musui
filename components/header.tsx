@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 
-type AuthUser = { id: string; email: string | null } | null
+type AuthUser = { id: string; email: string | null; displayName?: string | null } | null
 
 /**
  * 홈과 동일한 상단: 가운데 로고, 오른쪽 로그인 상태(비로그인: 회원가입/로그인, 로그인: 이메일/로그아웃), 네비
@@ -33,7 +33,7 @@ export default function Header() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-graphic.png" alt="musui" style={{ height: 28, width: "auto" }} />
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-baseline gap-2">
           {loading ? (
             <span className="text-[11px] text-black/50">...</span>
           ) : user ? (
@@ -42,10 +42,14 @@ export default function Header() {
                 className="max-w-[120px] truncate text-[11px] text-black/70"
                 title={user.email ?? undefined}
               >
-                {user.email}
+                {user.displayName || user.email}님
               </span>
-              <form action="/api/auth/signout" method="POST">
-                <button type="submit" className="text-[12px] leading-none text-black/75 hover:underline">
+              <form action="/api/auth/signout" method="POST" className="m-0 inline">
+                <button
+                  type="submit"
+                  className="m-0 inline leading-none text-black/75 hover:underline align-baseline"
+                  style={{ fontSize: "10px" }}
+                >
                   로그아웃
                 </button>
               </form>
@@ -71,6 +75,7 @@ export default function Header() {
           <Link href="/sessions">Sessions</Link>
           <Link href="/community">Community</Link>
           <Link href="/archive">My Archive</Link>
+          <Link href="/profile">Profile</Link>
         </div>
         <div className="h-px bg-black/15" />
       </nav>

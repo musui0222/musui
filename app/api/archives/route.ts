@@ -2,8 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 import { createRouteHandlerClient } from "@/lib/auth-route"
 import { getSupabaseConfigOrNull } from "@/lib/supabase/env"
 
-/** DB row → 앱에서 쓰는 SessionArchive 형태 */
-function toSessionArchive(row: {
+/** 목록용: 썸네일(photo_url) 포함, infusion_notes는 상세에서만 */
+function toSessionArchiveList(row: {
   id: string
   created_at: string
   is_public: boolean
@@ -18,7 +18,6 @@ function toSessionArchive(row: {
     tea_type: string | null
     origin: string | null
     brand_or_purchase: string | null
-    infusion_notes: unknown
   }>
 }) {
   const sorted = [...(row.archive_items ?? [])].sort((a, b) => (a.item_index ?? 0) - (b.item_index ?? 0))
@@ -36,7 +35,7 @@ function toSessionArchive(row: {
       teaType: it.tea_type ?? undefined,
       origin: it.origin ?? undefined,
       brandOrPurchase: it.brand_or_purchase ?? undefined,
-      infusionNotes: Array.isArray(it.infusion_notes) ? it.infusion_notes : [],
+      infusionNotes: [] as Array<{ aroma?: string; body?: number; aftertaste?: string }>,
     })),
   }
 }
@@ -74,8 +73,7 @@ export async function GET(request: NextRequest) {
         tea_name,
         tea_type,
         origin,
-        brand_or_purchase,
-        infusion_notes
+        brand_or_purchase
       )
     `
     )
@@ -87,7 +85,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  const archives = (rows ?? []).map(toSessionArchive)
+  const archives = (rows ?? []).map(toSessionArchiveList)
   return NextResponse.json({ archives })
 }
 

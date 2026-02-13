@@ -16,6 +16,8 @@ export type CommunityPost = {
   origin: string;
   brandOrPurchase: string;
   imageUrl: string | null;
+  /** 커뮤니티 작성자 닉네임 */
+  authorDisplayName?: string | null;
 };
 
 type Props = {
@@ -25,7 +27,7 @@ type Props = {
 };
 
 export function CommunityPostCard({ post, href }: Props) {
-  const { titleType, titleValue, category, origin, brandOrPurchase, imageUrl } = post;
+  const { titleType, titleValue, category, origin, brandOrPurchase, imageUrl, authorDisplayName } = post;
   const { ko: labelKo, en: labelEn } = TITLE_LABELS[titleType];
   const linkHref = href ?? `/community/${post.id}`;
 
@@ -34,14 +36,19 @@ export function CommunityPostCard({ post, href }: Props) {
       href={linkHref}
       className="group flex aspect-[3/4] flex-col overflow-hidden border border-black/12 bg-white transition-shadow hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)]"
     >
-      {/* 상단: ■ + 제목 */}
-      <div className="flex shrink-0 items-center gap-1.5 border-b border-black/10 px-2.5 py-2">
-        <span className="text-[8px] leading-none text-black" aria-hidden>
-          ■
-        </span>
-        <h2 className="min-w-0 flex-1 truncate text-[12px] font-medium tracking-[0.02em] text-black">
-          {titleValue || `${labelKo} (${labelEn})`}
-        </h2>
+      {/* 상단: ■ + 제목 + 작성자 */}
+      <div className="flex shrink-0 flex-col gap-0.5 border-b border-black/10 px-2.5 py-2">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[8px] leading-none text-black" aria-hidden>
+            ■
+          </span>
+          <h2 className="min-w-0 flex-1 truncate text-[12px] font-medium tracking-[0.02em] text-black">
+            {titleValue || `${labelKo} (${labelEn})`}
+          </h2>
+        </div>
+        {authorDisplayName ? (
+          <span className="truncate text-[10px] text-black/55">by {authorDisplayName}</span>
+        ) : null}
       </div>
 
       {/* 정보 행: Category / Origin / Brand or Purchase */}

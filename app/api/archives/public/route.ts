@@ -55,6 +55,7 @@ export async function GET(request: NextRequest) {
     .select(
       `
       id,
+      user_id,
       created_at,
       is_public,
       archive_items (
@@ -80,6 +81,24 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ archives: [] })
   }
 
-  const archives = (rows ?? []).map(toSessionArchive)
+  const userIds = [...new Set((rows ?? []).map((r: { user_id?: string }) => r.user_id).filter(Boolean))] as string[]
+  let displayNames: Record<string, string | null> = {}
+  if (userIds.length > 0) {
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id, display_name")
+      .in("id", userIds)
+    for (const p of profiles ?? []) {
+      displayNames[p.id] = p.display_name ?? null
+    }
+  }
+
+  const archives = (rows ?? []).map((row: { user_id?: string } & Parameters<typeof toSessionArchive>[0]) => {
+    const session = toSessionArchive(row)
+    return {
+      ...session,
+      authorDisplayName: row.user_id ? (displayNames[row.user_id] ?? null) : null,
+    }
+  })
   return NextResponse.json({ archives })
 }

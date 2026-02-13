@@ -20,7 +20,7 @@ function Shell({
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-6">
         <div className="flex items-center justify-between gap-4">
-          <h1 className="font-noto-sans text-[16px] font-medium tracking-[0.12em] uppercase text-black/80">
+          <h1 className="font-noto-sans text-[16px] font-medium tracking-[0.12em] uppercase text-black">
             {title}
           </h1>
           {rightAction != null ? <div className="shrink-0">{rightAction}</div> : null}

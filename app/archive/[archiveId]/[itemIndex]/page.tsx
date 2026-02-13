@@ -145,6 +145,39 @@ export default function ArchiveDetailPage() {
             </div>
           )}
 
+          {/* 인퓨전별 Body / Aftertaste (기록한 것만) */}
+          {[0, 1, 2].map((idx) => {
+            const note = itemForDisplay.infusionNotes?.[idx]
+            const hasBody = note?.body != null && note.body >= 1 && note.body <= 7
+            const hasAftertaste = note?.aftertaste != null && String(note.aftertaste).trim() !== ""
+            if (!hasBody && !hasAftertaste) return null
+            return (
+              <div key={idx} className="border-b border-black/10 px-4 py-4">
+                <h3 className="mb-3 text-[12px] font-medium tracking-[0.06em] text-black/70">
+                  Infusion {idx + 1}
+                </h3>
+                <div className="space-y-2 text-[13px]">
+                  {hasBody && (
+                    <div className="flex justify-between gap-4">
+                      <span className="text-black/50">Body</span>
+                      <span className="font-medium text-black">
+                        {note!.body === 1 ? "Light" : note!.body === 7 ? "Full" : `${note!.body}`}
+                      </span>
+                    </div>
+                  )}
+                  {hasAftertaste && (
+                    <div>
+                      <span className="block text-black/50 mb-0.5">Aftertaste</span>
+                      <p className="font-medium text-black leading-relaxed">
+                        {note!.aftertaste}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+
           {/* 찻자리 사진 */}
           <div className="relative aspect-[4/3] w-full bg-[#f5f5f5]">
             {itemForDisplay.photoDataUrl ? (
