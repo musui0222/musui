@@ -1,0 +1,58 @@
+import type { CommunityPost } from "@/components/CommunityPostCard";
+
+export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
+  {
+    id: "1",
+    titleType: "tea",
+    titleValue: "세작",
+    category: "녹차",
+    origin: "제주",
+    brandOrPurchase: "오설록",
+    imageUrl: "/community/post-1.png",
+  },
+  {
+    id: "2",
+    titleType: "tea",
+    titleValue: "호시노 말차",
+    category: "말차",
+    origin: "일본 우지마을",
+    brandOrPurchase: "호시노",
+    imageUrl: "/community/post-2.png",
+  },
+  {
+    id: "3",
+    titleType: "tea",
+    titleValue: "무이암차",
+    category: "청차",
+    origin: "중국 무이산",
+    brandOrPurchase: "라오상하이",
+    imageUrl: "/community/post-3.png",
+  },
+  {
+    id: "4",
+    titleType: "musui-tea",
+    titleValue: "일월담",
+    category: "홍차",
+    origin: "대만",
+    brandOrPurchase: "무수이",
+    imageUrl: "/community/post-4.png",
+  },
+  {
+    id: "5",
+    titleType: "tea",
+    titleValue: "아리산 고산차",
+    category: "청차",
+    origin: "중국",
+    brandOrPurchase: "무수이",
+    imageUrl: "/community/post-5.png",
+  },
+  {
+    id: "6",
+    titleType: "tea",
+    titleValue: "교쿠로",
+    category: "녹차",
+    origin: "일본",
+    brandOrPurchase: "무수이",
+    imageUrl: "/community/post-6.png",
+  },
+];
