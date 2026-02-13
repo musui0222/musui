@@ -42,18 +42,18 @@ export default function ArchivePage() {
   }, [fetchArchives])
 
   const onToggle = async (id: string, v: boolean) => {
+    setArchives((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, isPublic: v } : a))
+    )
     try {
       const res = await fetch(`/api/archives/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isPublic: v }),
       })
-      if (res.ok) {
-        await fetchArchives()
-        return
-      }
+      if (res.ok) return
     } catch {
-      // fallback to local
+      // keep optimistic state
     }
     toggleArchivePublic(id, v)
     setArchives(getArchives())
@@ -75,7 +75,24 @@ export default function ArchivePage() {
       rightAction={<AddButton />}
     >
       {loading ? (
-        <div className="text-[13px] text-black/60">불러오는 중…</div>
+        <div className="grid grid-cols-2 gap-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="flex aspect-[3/4] flex-col overflow-hidden border border-black/12 bg-white"
+              aria-hidden
+            >
+              <div className="h-8 shrink-0 animate-pulse bg-black/5" />
+              <div className="grid grid-cols-2 gap-1 px-2.5 py-1.5">
+                <div className="h-3 animate-pulse bg-black/5" />
+                <div className="h-3 animate-pulse bg-black/5" />
+                <div className="h-3 animate-pulse bg-black/5" />
+                <div className="h-3 animate-pulse bg-black/5" />
+              </div>
+              <div className="min-h-0 flex-1 animate-pulse bg-black/5" />
+            </div>
+          ))}
+        </div>
       ) : archives.length === 0 ? (
         <div className="text-[13px] text-black/70">
           아직 아카이브가 없습니다. <Link href="/archive/new" className="underline">새 기록 추가</Link> 또는{" "}

@@ -53,7 +53,9 @@ export function ArchiveCard({ archiveId, itemIndex, item, isPublic, onTogglePubl
             onClick={(e) => e.stopPropagation()}
             className="h-3 w-3 border border-black/25 rounded-none accent-black"
           />
-          <span className="text-[9px] text-black/60">공개</span>
+          <span className="text-[9px] text-black/60">
+            공개 {isPublic && "(커뮤니티 노출)"}
+          </span>
         </label>
       </div>
 

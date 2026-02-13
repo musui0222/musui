@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import Header from "@/components/header"
-import { getArchives } from "@/lib/musuiStore"
+import { getArchives, removeArchive } from "@/lib/musuiStore"
 import { COURSES } from "@/lib/musuiData"
 
 function courseTitle(courseId: string) {
@@ -26,11 +26,13 @@ function formatDate(iso: string) {
 
 export default function ArchiveDetailPage() {
   const params = useParams()
+  const router = useRouter()
   const archiveId = params.archiveId as string
   const itemIndex = parseInt(String(params.itemIndex), 10)
 
   const [archive, setArchive] = React.useState<ReturnType<typeof getArchives>[0] | null>(null)
   const [loading, setLoading] = React.useState(true)
+  const [deleting, setDeleting] = React.useState(false)
 
   React.useEffect(() => {
     let cancelled = false
@@ -159,6 +161,35 @@ export default function ArchiveDetailPage() {
             )}
           </div>
         </article>
+
+        {/* 삭제하기 */}
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            onClick={async () => {
+              if (!confirm("이 기록을 삭제할까요?")) return
+              setDeleting(true)
+              try {
+                const res = await fetch(`/api/archives/${archiveId}`, { method: "DELETE" })
+                if (res.ok) {
+                  router.push("/archive")
+                  return
+                }
+              } catch {
+                // 로컬만 삭제
+              }
+              if (removeArchive(archiveId)) {
+                router.push("/archive")
+                return
+              }
+              setDeleting(false)
+            }}
+            disabled={deleting}
+            className="border border-black/25 bg-white px-5 py-2.5 text-[13px] font-medium text-black/80 hover:border-black/50 hover:text-black disabled:opacity-50 rounded-none"
+          >
+            {deleting ? "삭제 중…" : "삭제하기"}
+          </button>
+        </div>
       </main>
     </div>
   )

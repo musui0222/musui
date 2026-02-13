@@ -45,6 +45,13 @@ export function toggleArchivePublic(id: string, isPublic: boolean): void {
   if (a) a.isPublic = isPublic
 }
 
+export function removeArchive(id: string): boolean {
+  const i = archives.findIndex((x) => x.id === id)
+  if (i === -1) return false
+  archives.splice(i, 1)
+  return true
+}
+
 export function getPublicArchives(): SessionArchive[] {
   return archives.filter((a) => a.isPublic)
 }
