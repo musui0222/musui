@@ -16,9 +16,8 @@ function courseTitle(courseId: string) {
   return COURSES.find((c) => c.id === courseId)?.title ?? courseId
 }
 
-/** 공개 아카이브를 커뮤니티 피드용 카드 데이터로 변환 */
-function publicArchivesToFeedPosts(): { post: CommunityPost; href: string }[] {
-  const publicArchives = getPublicArchives()
+/** 공개 아카이브 배열 → 커뮤니티 피드 카드 데이터 */
+function publicArchivesToFeedPosts(publicArchives: { id: string; items: { courseId: string; teaName?: string; memo?: string; teaType?: string; mood?: string; origin?: string; brandOrPurchase?: string; photoDataUrl?: string | null }[] }[]): { post: CommunityPost; href: string }[] {
   const items: { post: CommunityPost; href: string }[] = []
   for (const a of publicArchives) {
     a.items.forEach((it, idx) => {
@@ -44,7 +43,18 @@ function publicArchivesToFeedPosts(): { post: CommunityPost; href: string }[] {
 }
 
 export default function CommunityPage() {
-  const publicItems = publicArchivesToFeedPosts()
+  const [apiPublicArchives, setApiPublicArchives] = React.useState<{ id: string; items: { courseId: string; teaName?: string; memo?: string; teaType?: string; mood?: string; origin?: string; brandOrPurchase?: string; photoDataUrl?: string | null }[] }[]>([])
+  const localPublic = getPublicArchives()
+  React.useEffect(() => {
+    fetch("/api/archives/public")
+      .then((res) => res.json())
+      .then((data) => setApiPublicArchives(Array.isArray(data.archives) ? data.archives : []))
+      .catch(() => setApiPublicArchives([]))
+  }, [])
+
+  const publicItemsFromApi = publicArchivesToFeedPosts(apiPublicArchives)
+  const publicItemsFromLocal = publicArchivesToFeedPosts(localPublic)
+  const publicItems = [...publicItemsFromApi, ...publicItemsFromLocal]
   const allPosts = [
     ...publicItems,
     ...MOCK_COMMUNITY_POSTS.map((post) => ({ post, href: undefined as string | undefined })),

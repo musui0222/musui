@@ -61,31 +61,33 @@ export default async function TeaDetailPage({
 
   return (
     <div className="min-h-dvh bg-white text-black">
-      {/* 상단 헤더 — 모바일 480px */}
+      {/* 상단 헤더 — 다른 페이지와 동일: 로고 가운데 고정 */}
       <header className="border-b border-black/15">
-        <div className="mx-auto flex max-w-[480px] items-center justify-between px-3 py-2.5">
-          <Link href="/" className="text-[14px] text-black" aria-label="홈">←</Link>
-          <Link href="/" className="flex items-center justify-center">
+        <div className="relative mx-auto flex max-w-[480px] items-center justify-between px-3 py-2.5">
+          <Link href="/" className="min-w-[2.5rem] text-[14px] text-black" aria-label="홈">←</Link>
+          <Link
+            href="/"
+            aria-label="musui 홈"
+            className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-graphic.png" alt="musui" style={{ height: 24, width: "auto" }} />
+            <img src="/logo-graphic.png" alt="musui" style={{ height: 28, width: "auto" }} />
           </Link>
-          <div className="w-10" />
+          <div className="min-w-[2.5rem]" aria-hidden />
         </div>
       </header>
 
       <div className="mx-auto max-w-[480px] px-4 py-6">
         {/* 모바일: 포스터 위 → 상세 아래 단일 열 */}
         <section className="flex flex-col gap-6">
-          {/* 제품 카드 — 포스터 3:4, 너비 제한으로 한 페이지를 덜 차지 */}
-          <div className="mx-auto w-full max-w-[180px] overflow-hidden border border-black/15 bg-white shadow-[0_8px_20px_rgba(0,0,0,0.06)]">
-            <div className="relative w-full" style={{ aspectRatio: "3/4" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/posters/tea-2-poster.png"
-                alt={`${tea.title} 포스터`}
-                className="block h-full w-full object-cover object-center"
-              />
-            </div>
+          {/* 제품 카드 — 포스터 이미지 원본 비율 그대로 표시 (잘리지 않음) */}
+          <div className="mx-auto w-full max-w-[280px] border border-black/15 bg-white shadow-[0_8px_20px_rgba(0,0,0,0.06)]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/posters/tea-2-poster.png"
+              alt={`${tea.title} 포스터`}
+              className="block w-full object-contain object-center"
+            />
           </div>
 
           {/* 상세 정보 + 어코디언 */}
@@ -162,7 +164,7 @@ export default async function TeaDetailPage({
         </section>
 
         {/* 스크롤 시 보이는 섹션: 사계절이 모두 봄 */}
-        <section className="mt-12 border-t border-black/10 pt-8">
+        <section className="mt-12 pt-8">
           <h2 className="text-[18px] font-semibold tracking-[0.02em] text-black">사계절이 모두 봄</h2>
           <div className="mt-4 space-y-4 text-[13px] leading-relaxed tracking-[0.02em] text-black">
             <p>

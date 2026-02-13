@@ -85,8 +85,8 @@ export default function NewArchivePage() {
     reader.readAsDataURL(file)
   }
 
-  const handleSave = () => {
-    addManualArchive({
+  const handleSave = async () => {
+    const payload = {
       teaName: teaName.trim() || "이름 없음",
       teaType: teaType || "기타",
       origin: origin.trim() || undefined,
@@ -95,7 +95,31 @@ export default function NewArchivePage() {
       infusionNotes,
       photoDataUrl,
       isPublic,
-    })
+    }
+    try {
+      const res = await fetch("/api/archives", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      if (res.ok) {
+        router.push("/archive")
+        return
+      }
+      const err = await res.json().catch(() => ({}))
+      if (res.status === 401) {
+        addManualArchive(payload)
+        router.push("/archive")
+        return
+      }
+      console.error("[저장 실패]", err)
+    } catch {
+      // 오프라인 등: 로컬 저장
+      addManualArchive(payload)
+      router.push("/archive")
+      return
+    }
+    addManualArchive(payload)
     router.push("/archive")
   }
 

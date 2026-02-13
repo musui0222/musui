@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Header from "@/components/header"
 
 type Item = { id: string; title: string; subtitle?: string; poster?: string }
 
@@ -29,29 +30,7 @@ function PosterPlaceholder({ label }: { label: string }) {
 export default function HomePage() {
   return (
     <div className="min-h-dvh bg-white text-black">
-      {/* 인라인 헤더 — Header 컴포넌트 의존 제거로 에러 회피 */}
-      <header className="border-b border-black/15">
-        <div className="relative mx-auto flex max-w-[480px] items-center justify-between px-3 py-2.5">
-          <div className="w-16 shrink-0" />
-          <Link href="/" className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
-            {/* next/image 제거 — 서버 에러 시 임시 img로 복구 */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-graphic.png" alt="musui" style={{ height: 28, width: "auto" }} />
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link href="/signup" className="rounded-full bg-black px-2.5 py-1.5 text-[12px] leading-none text-white" style={{ color: "#fff" }}>Musui 회원가입</Link>
-            <Link href="/login" className="text-[12px] leading-none text-black/75">로그인</Link>
-          </div>
-        </div>
-        <nav className="mx-auto max-w-[480px] px-3">
-          <div className="flex gap-6 py-2.5 text-[13px] font-medium">
-            <Link href="/sessions">Sessions</Link>
-            <Link href="/community">Community</Link>
-            <Link href="/archive">My Archive</Link>
-          </div>
-          <div className="h-px bg-black/15" />
-        </nav>
-      </header>
+      <Header />
       <main className="mx-auto max-w-[480px] px-4 py-8">
         <section className="mb-10">
           <div className="mb-4 flex items-end justify-between">

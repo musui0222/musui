@@ -1,11 +1,16 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
-import { getSupabaseConfig } from "@/lib/supabase/env"
+import { getSupabaseConfigOrNull } from "@/lib/supabase/env"
 
 /** Proxy에서 Supabase 세션(쿠키) 갱신만 수행. 로그인 필수 리다이렉트는 하지 않음. */
 export async function updateSession(request: NextRequest) {
+  const config = getSupabaseConfigOrNull()
+  if (!config) {
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({ request })
-  const { url, anonKey } = getSupabaseConfig()
+  const { url, anonKey } = config
 
   const supabase = createServerClient(url, anonKey,
     {

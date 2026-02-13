@@ -53,3 +53,16 @@ export function getSupabaseConfig() {
   }
   return { url, anonKey }
 }
+
+/**
+ * 서버 전용. env가 없거나 placeholder면 null 반환 (throw 안 함).
+ * Vercel 등에서 env 미설정 시 500 방지.
+ */
+export function getSupabaseConfigOrNull(): { url: string; anonKey: string } | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+  if (!url || !key || url.includes(PLACEHOLDER_URL) || key.includes(PLACEHOLDER_KEY)) {
+    return null
+  }
+  return { url, anonKey: key }
+}
