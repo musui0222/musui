@@ -54,7 +54,7 @@ export function ArchiveCard({ archiveId, itemIndex, item, isPublic, onTogglePubl
             className="h-3 w-3 border border-black/25 rounded-none accent-black"
           />
           <span className="text-[9px] text-black/60">
-            공개 {isPublic && "(커뮤니티 노출)"}
+            공개 {isPublic && "(Magazine에 업로드)"}
           </span>
         </label>
       </div>

@@ -40,7 +40,7 @@ function toSessionArchive(row: {
   }
 }
 
-/** GET /api/archives/public — 공개 아카이브 목록 (커뮤니티용) */
+/** GET /api/archives/public — 공개 아카이브 목록 (Magazine용) */
 export async function GET(request: NextRequest) {
   const config = getSupabaseConfigOrNull()
   if (!config) {

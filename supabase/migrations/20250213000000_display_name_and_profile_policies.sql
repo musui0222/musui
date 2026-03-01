@@ -15,7 +15,7 @@ begin
 end;
 $$ language plpgsql security definer;
 
--- 2) RLS: 공개 아카이브가 있는 사용자의 프로필은 누구나 읽기 (커뮤니티 작성자 표시)
+-- 2) RLS: 공개 아카이브가 있는 사용자의 프로필은 누구나 읽기 (Magazine 작성자 표시)
 drop policy if exists "profiles_select_public_owners" on public.profiles;
 create policy "profiles_select_public_owners" on public.profiles for select
   using (id in (select user_id from public.archives where is_public = true));

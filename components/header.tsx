@@ -16,8 +16,9 @@ export default function Header() {
     fetch("/api/auth/user")
       .then((res) => res.json())
       .then((data: { user: AuthUser }) => {
-        setUser(data.user)
+        setUser(data?.user ?? null)
       })
+      .catch(() => setUser(null))
       .finally(() => setLoading(false))
   }, [])
 
@@ -72,8 +73,8 @@ export default function Header() {
       </div>
       <nav className="mx-auto max-w-[480px] px-3">
         <div className="flex gap-6 py-2.5 text-[13px] font-medium">
-          <Link href="/sessions">Sessions</Link>
-          <Link href="/community">Community</Link>
+          <Link href="/sessions">Tea Course</Link>
+          <Link href="/magazine">Magazine</Link>
           <Link href="/archive">My Archive</Link>
           <Link href="/profile">Profile</Link>
         </div>

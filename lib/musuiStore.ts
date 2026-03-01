@@ -1,7 +1,9 @@
 /** 우림 1회분 감각 기록 (수동 기록용) */
 export type InfusionNote = {
-  aroma?: string
+  leafAmountG?: number // 2 | 3 | 4 | 5 | 6 (g)
+  waterTempC?: number // 80 | 90 | 95 | 100 (°C)
   body?: number // 1~7 (Light ~ Full)
+  aroma?: number // 1~7 (Weak ~ Strong)
   aftertaste?: string
 }
 
@@ -54,6 +56,35 @@ export function removeArchive(id: string): boolean {
 
 export function getPublicArchives(): SessionArchive[] {
   return archives.filter((a) => a.isPublic)
+}
+
+/** 티코스 세션 기록 (비로그인 시 로컬 저장) */
+export function addCourseSessionArchive(params: {
+  courseId: string
+  items: Array<{
+    teaName?: string
+    laps: number[]
+    memo: string
+    infusionNotes: InfusionNote[]
+    altitudeRange?: string
+  }>
+  isPublic?: boolean
+}): SessionArchive {
+  const archive: SessionArchive = {
+    id: `course-${params.courseId}-${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    isPublic: params.isPublic ?? false,
+    items: params.items.map((it) => ({
+      courseId: params.courseId,
+      laps: it.laps,
+      mood: it.altitudeRange ?? "",
+      memo: it.memo,
+      teaName: it.teaName,
+      infusionNotes: it.infusionNotes,
+    })),
+  }
+  archives.push(archive)
+  return archive
 }
 
 /** 수동 기록 1건을 아카이브에 추가 (차 이름·종류·산지·브랜드·우림시간·노트·사진·공개) */

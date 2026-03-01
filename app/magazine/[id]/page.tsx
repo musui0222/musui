@@ -1,21 +1,21 @@
 import Link from "next/link";
 import Header from "@/components/header";
-import { MOCK_COMMUNITY_POSTS } from "@/lib/communityPosts";
-export default async function CommunityPostPage({
+import { MOCK_MAGAZINE_POSTS } from "@/lib/magazinePosts";
+export default async function MagazinePostPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = MOCK_COMMUNITY_POSTS.find((p) => p.id === id);
+  const post = MOCK_MAGAZINE_POSTS.find((p) => p.id === id);
 
   if (!post) {
     return (
       <div className="min-h-dvh bg-white px-4 py-12 text-center">
         <Header />
         <p className="mt-8 text-black/60">게시글을 찾을 수 없습니다.</p>
-        <Link href="/community" className="mt-4 inline-block text-[14px] underline">
-          커뮤니티로
+        <Link href="/magazine" className="mt-4 inline-block text-[14px] underline">
+          Magazine
         </Link>
       </div>
     );
@@ -25,12 +25,11 @@ export default async function CommunityPostPage({
     <div className="min-h-dvh bg-white text-black">
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-8">
-        <Link href="/community" className="text-[14px] text-black/70 hover:text-black">
-          ← Community
+        <Link href="/magazine" className="text-[14px] text-black/70 hover:text-black">
+          ← Magazine
         </Link>
 
         <article className="mt-6 border border-black/12 bg-white">
-          {/* 상단: ■ + 제목 */}
           <div className="flex items-start gap-2 border-b border-black/10 px-4 py-4">
             <span className="mt-0.5 text-[10px] leading-none text-black" aria-hidden>
               ■

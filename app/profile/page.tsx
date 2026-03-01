@@ -91,7 +91,7 @@ export default function ProfilePage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               className={inputClass}
-              placeholder="커뮤니티에 표시될 이름"
+              placeholder="Magazine에 표시될 이름"
               autoComplete="nickname"
             />
           </div>

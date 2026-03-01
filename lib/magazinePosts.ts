@@ -1,6 +1,6 @@
-import type { CommunityPost } from "@/components/CommunityPostCard";
+import type { MagazinePost } from "@/components/MagazinePostCard";
 
-export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
+export const MOCK_MAGAZINE_POSTS: MagazinePost[] = [
   {
     id: "1",
     titleType: "tea",
@@ -8,7 +8,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     category: "녹차",
     origin: "제주",
     brandOrPurchase: "오설록",
-    imageUrl: "/community/post-1.png",
+    imageUrl: "/magazine/post-1.png",
   },
   {
     id: "2",
@@ -17,7 +17,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     category: "말차",
     origin: "일본 우지마을",
     brandOrPurchase: "호시노",
-    imageUrl: "/community/post-2.png",
+    imageUrl: "/magazine/post-2.png",
   },
   {
     id: "3",
@@ -26,7 +26,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     category: "청차",
     origin: "중국 무이산",
     brandOrPurchase: "라오상하이",
-    imageUrl: "/community/post-3.png",
+    imageUrl: "/magazine/post-3.png",
   },
   {
     id: "4",
@@ -35,7 +35,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     category: "홍차",
     origin: "대만",
     brandOrPurchase: "무수이",
-    imageUrl: "/community/post-4.png",
+    imageUrl: "/magazine/post-4.png",
   },
   {
     id: "5",
@@ -44,7 +44,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     category: "청차",
     origin: "중국",
     brandOrPurchase: "무수이",
-    imageUrl: "/community/post-5.png",
+    imageUrl: "/magazine/post-5.png",
   },
   {
     id: "6",
@@ -53,6 +53,6 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     category: "녹차",
     origin: "일본",
     brandOrPurchase: "무수이",
-    imageUrl: "/community/post-6.png",
+    imageUrl: "/magazine/post-6.png",
   },
 ];
