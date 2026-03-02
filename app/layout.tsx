@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body style={{ margin: 0 }}>
-        {children}
+        <div className="site-layout">{children}</div>
       </body>
     </html>
   );

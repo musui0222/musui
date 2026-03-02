@@ -157,3 +157,88 @@ button, input, textarea{font:inherit}
   color:var(--muted);
   line-height:1.45;
 }
+
+/* ========================================
+   데스크톱 레이아웃 (1024px 이상)
+   모바일 스타일은 그대로 유지
+   ======================================== */
+@media (min-width: 1024px) {
+  .site-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    flex-direction: row;
+    min-height: 100dvh;
+  }
+
+  /* 페이지가 div로 감싼 경우 (홈, 세션 등) */
+  .site-layout > div {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-width: 0;
+    min-height: 100dvh;
+  }
+
+  /* 헤더: 좌측 사이드바로 전환 */
+  .site-layout .site-header {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-bottom: none;
+    border-right: 1px solid var(--hair2);
+  }
+
+  .site-layout .site-header-inner {
+    max-width: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 0;
+    gap: 16px;
+  }
+
+  .site-layout .site-header-inner > div:first-child {
+    display: none;
+  }
+
+  .site-layout .site-header a[aria-label="musui 홈"] {
+    position: static;
+    transform: none;
+  }
+
+  .site-layout .site-header a[aria-label="musui 홈"] img {
+    height: 32px;
+  }
+
+  .site-layout .site-nav {
+    max-width: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 4px;
+  }
+
+  .site-layout .site-nav a {
+    font-size: 13px;
+    padding: 6px 0;
+  }
+
+  .site-layout .site-nav + div {
+    margin: 16px 0 0;
+  }
+
+  /* 메인 콘텐츠 영역 */
+  .site-layout main {
+    flex: 1;
+    max-width: none;
+    padding: 32px 40px;
+    overflow-x: hidden;
+  }
+
+  /* 홈/세션 등 그리드 섹션: 가로 배치 확장 */
+  .site-layout main .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}

@@ -23,8 +23,8 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="border-b border-black/15">
-      <div className="relative mx-auto flex max-w-[480px] items-center justify-between px-3 py-2.5">
+    <header className="site-header border-b border-black/15">
+      <div className="site-header-inner relative mx-auto flex max-w-[480px] items-center justify-between px-3 py-2.5">
         <div className="w-16 shrink-0" aria-hidden />
         <Link
           href="/"
@@ -71,7 +71,7 @@ export default function Header() {
           )}
         </div>
       </div>
-      <nav className="mx-auto max-w-[480px] px-3">
+      <nav className="site-nav mx-auto max-w-[480px] px-3">
         <div className="flex gap-6 py-2.5 text-[13px] font-medium">
           <Link href="/sessions">Tea Course</Link>
           <Link href="/magazine">Magazine</Link>
