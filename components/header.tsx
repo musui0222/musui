@@ -57,7 +57,7 @@ export default function Header() {
           </div>
           <div className="h-px bg-black/15 lg:hidden" />
           </nav>
-          <div className="flex shrink-0 items-center gap-2 text-[10px] text-black/60 lg:mt-auto lg:flex-col lg:items-stretch lg:gap-1 lg:text-[11px]">
+          <div className="flex shrink-0 items-center gap-2 text-[10px] text-black/60 lg:mt-auto lg:flex-col lg:items-start lg:gap-1 lg:text-[11px]">
           {loading ? (
             <span className="text-black/50">...</span>
           ) : user ? (
@@ -82,7 +82,7 @@ export default function Header() {
             <>
               <Link
                 href="/signup"
-                className="rounded-full bg-black px-2.5 py-1.5 text-[11px] leading-none text-white"
+                className="w-fit rounded-full bg-black px-2.5 py-1.5 text-[11px] leading-none text-white"
                 style={{ color: "#fff" }}
               >
                 Musui 회원가입
