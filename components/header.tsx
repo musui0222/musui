@@ -83,6 +83,7 @@ export default function Header() {
               <Link
                 href="/signup"
                 className="rounded-full bg-black px-2.5 py-1.5 text-[11px] leading-none text-white"
+                style={{ color: "#fff" }}
               >
                 Musui 회원가입
               </Link>
