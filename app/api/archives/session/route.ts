@@ -26,16 +26,49 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 })
   }
 
-  let body: { courseId: string; items: SessionItem[]; isPublic?: boolean }
+  let body: { courseId: string; runId?: string; items: SessionItem[]; isPublic?: boolean }
   try {
     body = await request.json()
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 })
   }
 
-  const { courseId, items, isPublic = false } = body
+  const { courseId, runId, items, isPublic = false } = body
   if (!courseId || !Array.isArray(items) || items.length === 0) {
     return NextResponse.json({ error: "courseId와 items가 필요합니다." }, { status: 400 })
+  }
+
+  if (items.length !== 4) {
+    return NextResponse.json({ error: "items는 4개여야 합니다." }, { status: 400 })
+  }
+
+  let courseRunId: string | null = null
+  if (runId) {
+    const { data: run } = await supabase
+      .from("course_runs")
+      .select("id")
+      .eq("id", runId)
+      .eq("user_id", user.id)
+      .eq("course_id", courseId)
+      .maybeSingle()
+    if (run) courseRunId = run.id
+  }
+
+  if (courseRunId) {
+    const notesInsert = items.map((it, idx) => ({
+      run_id: courseRunId,
+      step_index: (idx + 1) as 1 | 2 | 3 | 4,
+      laps: it.laps ?? [0, 0, 0],
+      memo: it.memo ?? "",
+      tea_name: it.teaName ?? null,
+      altitude_range: it.altitudeRange ?? null,
+      infusion_notes: it.infusionNotes ?? [],
+    }))
+    const { error: notesErr } = await supabase.from("notes").insert(notesInsert)
+    if (notesErr) {
+      console.error("[POST /api/archives/session] notes insert", notesErr)
+      return NextResponse.json({ error: notesErr.message }, { status: 500 })
+    }
   }
 
   const archiveId = `course-${courseId}-${Date.now()}`
@@ -44,6 +77,7 @@ export async function POST(request: NextRequest) {
     id: archiveId,
     user_id: user.id,
     is_public: isPublic,
+    course_run_id: courseRunId,
   })
   if (archiveError) {
     console.error("[POST /api/archives/session] archives insert", archiveError)

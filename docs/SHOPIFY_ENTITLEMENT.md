@@ -80,17 +80,36 @@
 
 ---
 
-## 5. 환경 변수 (Next.js)
+## 5. 이메일 기반 구매 확인 (별도 웹사이트 로그인)
+
+**상황:** 사용자가 Shopify 스토어가 아닌 **별도 웹사이트**(Supabase 등)에 로그인한 경우.
+
+- **API:** `GET /api/shopify/check-purchase`
+- **동작:** 로그인한 사용자의 이메일로 Shopify Orders API를 호출해 결제 완료 주문을 조회하고, Tea Course 상품 구매 여부를 반환합니다.
+- **응답:** `{ entitledCourseIds: string[], hasPurchased: boolean }`
+
+**환경 변수**
+
+- `SHOPIFY_PRODUCT_IDS`: Shopify 상품 ID → 티코스 매핑
+  - 형식 1: `"123456:session-1,123457:session-2,123458:session-3,123459:session-4"`
+  - 형식 2: `"123456,123457,123458,123459"` (순서대로 session-1~4)
+
+**Shopify 상품 ID 확인:** Admin → Products → 상품 클릭 → URL의 `products/` 뒤 숫자 또는 API 응답의 `product_id`
+
+---
+
+## 6. 환경 변수 (Next.js)
 
 | 변수 | 설명 |
 |------|------|
 | `SHOPIFY_STORE_DOMAIN` | Admin API 호출용 스토어 도메인 (예: `my-store.myshopify.com`) |
 | `SHOPIFY_ADMIN_ACCESS_TOKEN` | Admin API 액세스 토큰 (고객 조회/태그 확인용) |
+| `SHOPIFY_PRODUCT_IDS` | 상품 ID → 티코스 매핑 (이메일 구매 확인용) |
 | `NEXT_PUBLIC_SHOPIFY_STORE_URL` | 스토어 프론트 URL (구매 버튼 링크용, 예: `https://my-store.com`) |
 
 ---
 
-## 6. 샘플 확인 순서
+## 7. 샘플 확인 순서
 
 1. **태그 부여 확인**
    - Shopify Admin → Customers → 특정 고객에 `tc_1` 등 수동 태그 추가.

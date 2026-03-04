@@ -4,10 +4,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import Header from "@/components/header"
 import { TeaRecordBlock } from "@/components/TeaRecordBlock"
-import {
-  getTeaCourseSessionById,
-  type TeaInCourse,
-} from "@/lib/teaCourseData"
+import type { TeaInCourse } from "@/lib/teaCourseData"
 import { addCourseSessionArchive, type InfusionNote } from "@/lib/musuiStore"
 import Link from "next/link"
 
@@ -145,22 +142,37 @@ function TeaPageContent({
   )
 }
 
-export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
+type TeaCourseSessionContentProps = {
+  courseId: string
+  courseTitle: string
+  courseOneLiner: string
+  courseTotalMinutes: number
+  courseConcept: string
+  runId?: string | null
+  teas: TeaInCourse[]
+}
+
+export function TeaCourseSessionContent({
+  courseId,
+  courseTitle,
+  courseOneLiner,
+  courseTotalMinutes,
+  courseConcept,
+  runId,
+  teas,
+}: TeaCourseSessionContentProps) {
   const router = useRouter()
-  const course = getTeaCourseSessionById(courseId)
 
   const [step, setStep] = React.useState(0)
-  const [teaRecordingStarted, setTeaRecordingStarted] = React.useState<
-    boolean[]
-  >(() => (course ? course.teas.map(() => false) : []))
+  const [teaRecordingStarted, setTeaRecordingStarted] = React.useState<boolean[]>(
+    () => teas.map(() => false)
+  )
   const [records, setRecords] = React.useState<TeaRecord[]>(() =>
-    course
-      ? course.teas.map((t) => ({
-          laps: [0, 0, 0],
-          infusionNote: {},
-          altitudeRange: t.altitudeRange,
-        }))
-      : []
+    teas.map((t) => ({
+      laps: [0, 0, 0],
+      infusionNote: {},
+      altitudeRange: t.altitudeRange,
+    }))
   )
   const [saving, setSaving] = React.useState(false)
   const [user, setUser] = React.useState<{ id: string } | null>(null)
@@ -171,7 +183,7 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
       .then((d: { user: { id: string } | null }) => setUser(d.user))
   }, [])
 
-  if (!course) {
+  if (teas.length === 0) {
     return (
       <div className="min-h-dvh bg-white text-black">
         <Header />
@@ -207,13 +219,14 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
   const handleComplete = async () => {
     setSaving(true)
     const payload = {
-      courseId: course.id,
+      courseId,
+      runId: runId ?? undefined,
       items: records.map((r, i) => ({
-        teaName: course.teas[i]?.name,
+        teaName: teas[i]?.name,
         laps: r.laps,
         memo: "",
         infusionNotes: [r.infusionNote],
-        altitudeRange: r.altitudeRange ?? course.teas[i]?.altitudeRange,
+        altitudeRange: r.altitudeRange ?? teas[i]?.altitudeRange,
       })),
       isPublic: false,
     }
@@ -239,7 +252,7 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
     setSaving(false)
   }
 
-  const summaryStep = 1 + course.teas.length
+  const summaryStep = 1 + teas.length
 
   // 0: 코스 설명
   if (step === 0) {
@@ -248,14 +261,14 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
         <Header />
         <main className="mx-auto max-w-[480px] px-4 py-8">
           <h1 className="font-noto-sans mb-1 text-[18px] font-semibold text-black">
-            {course.title}
+            {courseTitle}
           </h1>
-          <p className="mb-2 text-[13px] text-black/80">{course.oneLiner}</p>
+          <p className="mb-2 text-[13px] text-black/80">{courseOneLiner}</p>
           <p className="mb-4 text-[12px] text-black/55">
-            전체 소요 시간 약 {course.totalMinutes}분
+            전체 소요 시간 약 {courseTotalMinutes}분
           </p>
           <p className="mb-8 text-[12px] leading-relaxed text-black/70">
-            {course.concept}
+            {courseConcept}
           </p>
           <button
             type="button"
@@ -269,10 +282,10 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
     )
   }
 
-  // 1 ~ N: 각 차 페이지 (코스당 한 페이지)
-  if (step >= 1 && step <= course.teas.length) {
+  // 1 ~ 4: 각 차 페이지
+  if (step >= 1 && step <= teas.length) {
     const teaIndex = step - 1
-    const tea = course.teas[teaIndex]
+    const tea = teas[teaIndex]
     const rec = records[teaIndex] ?? {
       laps: [0, 0, 0],
       infusionNote: {},
@@ -286,7 +299,7 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
         <TeaPageContent
           tea={tea}
           teaIndex={teaIndex}
-          totalTeas={course.teas.length}
+          totalTeas={teas.length}
           rec={rec}
           recordingStarted={recordingStarted}
           onStartRecording={() => startTeaRecording(teaIndex)}
@@ -307,7 +320,7 @@ export function TeaCourseSessionContent({ courseId }: { courseId: string }) {
             기록 요약
           </h2>
           <div className="mb-8 space-y-4">
-            {course.teas.map((tea, i) => {
+            {teas.map((tea, i) => {
               const rec = records[i] ?? { laps: [0, 0, 0], infusionNote: {} }
               const note = rec.infusionNote
               const altRange = rec.altitudeRange ?? tea.altitudeRange

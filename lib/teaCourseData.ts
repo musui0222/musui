@@ -29,7 +29,7 @@ export type TeaCourseSession = {
   teas: TeaInCourse[]
 }
 
-/** 고도(高度) — 5개 차 구성 */
+/** 고도(高度) — 4개 차 구성 (DB course_items가 우선) */
 export const TEA_COURSE_SESSIONS: TeaCourseSession[] = [
   {
     id: "session-1",
@@ -100,19 +100,6 @@ export const TEA_COURSE_SESSIONS: TeaCourseSession[] = [
         altitudeRange: "1,500m ~ 1,800m",
         zoneName: "운무의 정점",
       },
-      {
-        id: "tea-05",
-        name: "대우령 오롱",
-        origin: "대만 (화련현)",
-        tastingNote:
-          "극한의 추위를 견디며 완성된 고산기. 맑고 투명하면서도 강력한 향의 잔상",
-        meaningInCourse: "[최정상]",
-        recommendedTemp: "90℃",
-        recommendedTime: "1분 30초",
-        steepingGuide: "1~3회",
-        altitudeRange: "2,000m+",
-        zoneName: "최정상",
-      },
     ],
   },
   {
@@ -121,7 +108,7 @@ export const TEA_COURSE_SESSIONS: TeaCourseSession[] = [
     oneLiner: "차와 재료가 순환하는 시간",
     totalMinutes: 30,
     concept: "다양한 재료가 한 접시 위에서 순환하며 만나는 경험.",
-    teas: [1, 2, 3, 4, 5].map((n) => ({
+    teas: [1, 2, 3, 4].map((n) => ({
       id: `tea-${n}`,
       name: `${n === 1 ? "1st" : n === 2 ? "2nd" : n === 3 ? "3rd" : `${n}th`} Tea`,
       origin: "예시",
@@ -138,7 +125,7 @@ export const TEA_COURSE_SESSIONS: TeaCourseSession[] = [
     oneLiner: "차의 다양성을 발견하는 시간",
     totalMinutes: 30,
     concept: "여러 종류의 차를 경험하며 나만의 발견을 기록합니다.",
-    teas: [1, 2, 3, 4, 5, 6].map((n) => ({
+    teas: [1, 2, 3, 4].map((n) => ({
       id: `tea-${n}`,
       name: `${n === 1 ? "1st" : n === 2 ? "2nd" : n === 3 ? "3rd" : `${n}th`} Tea`,
       origin: "예시",
@@ -155,7 +142,7 @@ export const TEA_COURSE_SESSIONS: TeaCourseSession[] = [
     oneLiner: "봄철 찻잎의 신선함",
     totalMinutes: 30,
     concept: "봄에 수확한 신선한 찻잎을 맛보는 코스.",
-    teas: [1, 2, 3, 4, 5].map((n) => ({
+    teas: [1, 2, 3, 4].map((n) => ({
       id: `tea-${n}`,
       name: `${n === 1 ? "1st" : n === 2 ? "2nd" : n === 3 ? "3rd" : `${n}th`} Tea`,
       origin: "예시",

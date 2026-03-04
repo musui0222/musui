@@ -40,6 +40,7 @@ create table if not exists public.archives (
   created_at timestamptz not null default now(),
   is_public boolean not null default false
 );
+-- course_run_id: added by migration 20250216000000 (references course_runs)
 
 create index if not exists idx_archives_user_id on public.archives(user_id);
 create index if not exists idx_archives_created_at on public.archives(created_at desc);
@@ -118,7 +119,131 @@ create policy "archive_items_delete_own_archive" on public.archive_items for del
   );
 
 -- ============================================================
--- 5) 스토리지 버킷 (찻자리 사진, 선택)
+-- 5) Shopify Tea Course entitlements (webhook-populated)
+-- Unique per (email, course_id) for gating; user_id nullable until linked
+-- purchase_count, last_purchase_at track multiple purchases
+-- ============================================================
+create table if not exists public.shopify_entitlements (
+  id uuid primary key default gen_random_uuid(),
+  email text not null,
+  user_id uuid references auth.users(id) on delete cascade,
+  course_id text not null,
+  shopify_order_id text,
+  shopify_customer_id text,
+  purchase_count int not null default 1,
+  last_purchase_at timestamptz,
+  created_at timestamptz not null default now(),
+  unique(email, course_id)
+);
+create index if not exists idx_shopify_entitlements_email on public.shopify_entitlements(email);
+create index if not exists idx_shopify_entitlements_user_id on public.shopify_entitlements(user_id) where user_id is not null;
+alter table public.shopify_entitlements enable row level security;
+
+-- ============================================================
+-- 6) shopify_purchases (webhook deduplication)
+-- One row per line item; prevents duplicate processing
+-- ============================================================
+create table if not exists public.shopify_purchases (
+  id uuid primary key default gen_random_uuid(),
+  shopify_order_id text not null,
+  shopify_line_item_id text not null,
+  email text not null,
+  course_id text not null,
+  purchased_at timestamptz not null default now(),
+  unique(shopify_order_id, shopify_line_item_id)
+);
+
+-- ============================================================
+-- 7) course_runs (Start/Restart sessions)
+-- One row per "Start/Restart" click; records stored under run_id
+-- archives.course_run_id links Tea Course archives to a run
+-- ============================================================
+create table if not exists public.course_runs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  course_id text not null,
+  created_at timestamptz not null default now()
+);
+
+-- ============================================================
+-- 8) teas (master tea catalog)
+-- ============================================================
+create table if not exists public.teas (
+  id text primary key,
+  name text not null,
+  origin text not null default '',
+  tasting_note text not null default '',
+  meaning_in_course text default '',
+  recommended_temp text default '',
+  recommended_time text default '',
+  steeping_guide text default '',
+  altitude_range text,
+  zone_name text,
+  image_src text,
+  musui_tip text,
+  created_at timestamptz not null default now()
+);
+
+-- ============================================================
+-- 9) course_items (course composition, 4 steps)
+-- (course_id, step_index, tea_id) step_index 1..4
+-- Change teas without code changes
+-- ============================================================
+create table if not exists public.course_items (
+  course_id text not null,
+  step_index smallint not null check (step_index between 1 and 4),
+  tea_id text not null references public.teas(id) on delete cascade,
+  primary key (course_id, step_index)
+);
+
+-- ============================================================
+-- 10) redeem_codes (QR/code in package)
+-- ============================================================
+create table if not exists public.redeem_codes (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique,
+  course_id text not null,
+  status text not null default 'active' check (status in ('active', 'disabled', 'expired')),
+  expires_at timestamptz,
+  max_uses int,
+  used_count int not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.redeem_redemptions (
+  id uuid primary key default gen_random_uuid(),
+  code text not null,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  redeemed_at timestamptz not null default now(),
+  ip_hash text
+);
+
+create table if not exists public.redeem_attempts (
+  id uuid primary key default gen_random_uuid(),
+  ip_hash text not null,
+  attempted_at timestamptz not null default now()
+);
+
+-- ============================================================
+-- 11) notes (run notes, 4 steps per run)
+-- unique(run_id, step_index), step_index 1..4
+-- ============================================================
+create table if not exists public.notes (
+  id uuid primary key default gen_random_uuid(),
+  run_id uuid not null references public.course_runs(id) on delete cascade,
+  step_index smallint not null check (step_index between 1 and 4),
+  laps smallint[] not null default array[0, 0, 0],
+  memo text not null default '',
+  tea_name text,
+  altitude_range text,
+  infusion_notes jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now(),
+  unique(run_id, step_index)
+);
+
+-- ============================================================
+-- 6) 스토리지 버킷 (찻자리 사진, 선택)
 -- Dashboard → Storage에서 버킷 생성 후 아래 정책 적용 가능
 -- 버킷 이름 예: tea-photos (public 또는 private)
 -- ============================================================

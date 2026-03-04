@@ -160,43 +160,43 @@ button, input, textarea{font:inherit}
 
 /* ========================================
    데스크톱 레이아웃 (1024px 이상)
-   모바일 스타일은 그대로 유지
+   좌측 고정 사이드바, 메인 콘텐츠는 우측
+   모바일: 기존 상단 네비 유지
    ======================================== */
 @media (min-width: 1024px) {
   .site-layout {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 32px;
-    display: flex;
-    flex-direction: row;
     min-height: 100dvh;
   }
 
-  /* 페이지가 div로 감싼 경우 (홈, 세션 등) */
+  /* 페이지 래퍼: flex row */
   .site-layout > div {
     display: flex;
     flex-direction: row;
-    flex: 1;
-    min-width: 0;
     min-height: 100dvh;
+    min-width: 0;
   }
 
-  /* 헤더: 좌측 사이드바로 전환 */
+  /* 헤더: 좌측 고정 사이드바 */
   .site-layout .site-header {
-    width: 220px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100dvh;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     border-bottom: none;
     border-right: 1px solid var(--hair2);
+    background: var(--bg);
+    z-index: 100;
+    padding: 24px 20px;
+    gap: 24px;
   }
 
+  /* header-inner: contents로 자식들을 header의 직접 자식으로 */
   .site-layout .site-header-inner {
-    max-width: none;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 24px 0;
-    gap: 16px;
+    display: contents;
   }
 
   .site-layout .site-header-inner > div:first-child {
@@ -206,38 +206,61 @@ button, input, textarea{font:inherit}
   .site-layout .site-header a[aria-label="musui 홈"] {
     position: static;
     transform: none;
+    order: 0;
+    margin-bottom: 8px;
   }
 
   .site-layout .site-header a[aria-label="musui 홈"] img {
-    height: 32px;
+    height: 28px;
   }
 
+  /* 네비: 세로 배치, 로고 다음 */
   .site-layout .site-nav {
     max-width: none;
     flex-direction: column;
     align-items: flex-start;
     padding: 0;
-    gap: 4px;
+    gap: 0;
+    flex: 1;
+    order: 1;
+  }
+
+  .site-layout .site-nav > div:first-child {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
   }
 
   .site-layout .site-nav a {
     font-size: 13px;
-    padding: 6px 0;
+    padding: 8px 0;
+    display: block;
   }
 
-  .site-layout .site-nav + div {
-    margin: 16px 0 0;
+  .site-layout .site-nav > div:last-child {
+    display: none;
   }
 
-  /* 메인 콘텐츠 영역 */
+  /* 인증(내정보/로그아웃): 하단 */
+  .site-layout .site-header-inner > div:last-child {
+    order: 2;
+    margin-top: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* 메인 콘텐츠: 사이드바 오른쪽, 겹치지 않음 */
   .site-layout main {
     flex: 1;
+    margin-left: 200px;
     max-width: none;
     padding: 32px 40px;
     overflow-x: hidden;
+    min-width: 0;
   }
 
-  /* 홈/세션 등 그리드 섹션: 가로 배치 확장 */
+  /* 홈/세션 등 그리드 섹션 */
   .site-layout main .grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }

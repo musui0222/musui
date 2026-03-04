@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Header from "@/components/header"
 import { createClient } from "@/lib/supabase/client"
@@ -11,6 +11,8 @@ const inputClass =
 
 export default function SignupPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get("redirect") ?? "/"
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [passwordConfirm, setPasswordConfirm] = React.useState("")
@@ -147,7 +149,7 @@ export default function SignupPage() {
             가입한 이메일로 확인 메일을 보냈을 수 있습니다. 링크를 클릭한 뒤 로그인해 주세요.
           </p>
           <Link
-            href="/login"
+            href={redirectTo !== "/" ? `/login?redirect=${encodeURIComponent(redirectTo)}` : "/login"}
             className="inline-block border border-black bg-black px-4 py-2 text-[13px] font-medium text-white hover:bg-black/90 rounded-none"
           >
             로그인하기
@@ -262,7 +264,10 @@ export default function SignupPage() {
         </form>
         <p className="mt-6 text-center text-[12px] text-black/60">
           이미 계정이 있으신가요?{" "}
-          <Link href="/login" className="underline">
+          <Link
+            href={redirectTo !== "/" ? `/login?redirect=${encodeURIComponent(redirectTo)}` : "/login"}
+            className="underline"
+          >
             로그인
           </Link>
         </p>

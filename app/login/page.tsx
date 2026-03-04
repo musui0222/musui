@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Header from "@/components/header"
 import { createClient } from "@/lib/supabase/client"
@@ -11,6 +11,8 @@ const inputClass =
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get("redirect") ?? "/"
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [error, setError] = React.useState<string | null>(null)
@@ -35,7 +37,7 @@ export default function LoginPage() {
         setError(err.message)
         return
       }
-      router.push("/")
+      router.push(redirectTo)
       router.refresh()
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)
@@ -94,7 +96,10 @@ export default function LoginPage() {
         </form>
         <p className="mt-6 text-center text-[12px] text-black/60">
           계정이 없으신가요?{" "}
-          <Link href="/signup" className="underline">
+          <Link
+            href={redirectTo !== "/" ? `/signup?redirect=${encodeURIComponent(redirectTo)}` : "/signup"}
+            className="underline"
+          >
             회원가입
           </Link>
         </p>
