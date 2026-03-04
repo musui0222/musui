@@ -82,12 +82,12 @@ export default function Header() {
             <>
               <Link
                 href="/signup"
-                className="w-fit rounded-full bg-black px-2.5 py-1.5 text-[11px] leading-none text-white"
+                className="block w-fit rounded-full bg-black px-2.5 py-1 text-[11px] leading-none text-white"
                 style={{ color: "#fff" }}
               >
                 Musui 회원가입
               </Link>
-              <Link href="/login" className="text-black/75 hover:underline">
+              <Link href="/login" className="block text-left text-black/75 hover:underline">
                 로그인
               </Link>
             </>
