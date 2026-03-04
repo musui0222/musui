@@ -70,9 +70,10 @@ export async function POST(request: Request) {
   if (!email) return NextResponse.json({ ok: true })
 
   const productIdMap = getProductIdMapping()
-  const lineItemsWithCourse = (payload.line_items ?? [])
+  type LineItem = { id?: number; sku?: string; product_id?: number }
+  const lineItemsWithCourse = (payload.line_items ?? [] as LineItem[])
     .map((item) => ({ item, courseId: matchCourseId(item, productIdMap) }))
-    .filter((x): x is { item: (typeof payload.line_items)[number]; courseId: string } => x.courseId != null)
+    .filter((x): x is { item: LineItem; courseId: string } => x.courseId != null)
 
   if (lineItemsWithCourse.length === 0) return NextResponse.json({ ok: true })
 

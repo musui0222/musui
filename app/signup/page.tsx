@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/client"
 const inputClass =
   "w-full border border-black/15 bg-white px-2.5 py-2 text-[13px] outline-none focus:border-black/30 rounded-none"
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get("redirect") ?? "/"
@@ -273,5 +273,20 @@ export default function SignupPage() {
         </p>
       </main>
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <React.Suspense fallback={
+      <div className="min-h-dvh bg-white text-black">
+        <Header />
+        <main className="mx-auto max-w-[480px] px-4 py-8">
+          <p className="text-[14px] text-black/60">로딩 중...</p>
+        </main>
+      </div>
+    }>
+      <SignupForm />
+    </React.Suspense>
   )
 }

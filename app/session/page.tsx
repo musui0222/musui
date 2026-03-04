@@ -13,7 +13,7 @@ export default async function SessionPage({ searchParams }: Props) {
   const internalId = resolveInternalCourseId(courseId) ?? courseId
 
   const teaCourse = getTeaCourseSessionById(internalId)
-  if (teaCourse) {
+  if (teaCourse && internalId) {
     const composition = await getCourseComposition(internalId)
     const teas = composition ?? teaCourse.teas.slice(0, 4)
     return (
