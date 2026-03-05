@@ -23,11 +23,11 @@ html,body{
   width:100%;
   min-width:0;
   overflow-x:hidden;
-  font-family:"Manrope",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
 }
 
 .font-pretendard,
-.font-noto-sans{font-family:"Manrope",-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+.font-noto-sans{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
 body{
   margin:0;
   padding:0;
@@ -176,7 +176,7 @@ img,video{max-width:100%; height:auto}
    Tea Course 목록 / 프리뷰 (Tailwind 없이)
    ======================================== */
 .tc-title {
-  font-family: "Manrope", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -259,7 +259,7 @@ img,video{max-width:100%; height:auto}
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: max(20px, env(safe-area-inset-top)) 20px 20px;
   overflow-y: auto;
 }
 
@@ -359,8 +359,8 @@ img,video{max-width:100%; height:auto}
 
 .tc-modal-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: max(12px, env(safe-area-inset-top, 12px));
+  right: max(12px, env(safe-area-inset-right, 12px));
   width: 36px;
   height: 36px;
   border: none;
@@ -370,10 +370,24 @@ img,video{max-width:100%; height:auto}
   font-size: 20px;
   line-height: 1;
   color: var(--ink);
+  z-index: 10;
 }
 
 .tc-modal-wrapper {
   position: relative;
+}
+
+/* 모바일: safe-area로 나가기/닫기 버튼 가림 방지 */
+.site-header-safe-top {
+  padding-top: max(10px, env(safe-area-inset-top, 10px)) !important;
+  padding-right: max(12px, env(safe-area-inset-right, 12px)) !important;
+}
+
+@media (min-width: 1024px) {
+  .site-header-safe-top {
+    padding-top: 10px !important;
+    padding-right: 12px !important;
+  }
 }
 
 /* ========================================

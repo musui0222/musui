@@ -65,11 +65,11 @@ export default function Header() {
 
   return (
     <header className="site-header border-b border-black/15 lg:border-b-0 lg:border-r lg:border-black/15">
-      <div className="site-header-inner mx-auto flex max-w-[480px] flex-col gap-4 px-3 py-2.5 pb-4 lg:max-w-none lg:flex-col lg:items-stretch lg:gap-0 lg:py-2.5">
+      <div className="site-header-inner site-header-safe-top mx-auto flex max-w-[480px] flex-col gap-4 px-3 py-2.5 pb-4 lg:max-w-none lg:flex-col lg:items-stretch lg:gap-0 lg:py-2.5">
         <div className="hidden" aria-hidden />
         {/* 모바일: 1행 - 회원가입/로그인 왼쪽, 로고 가운데 | 데스크톱: 로고 */}
-        <div className="grid grid-cols-3 items-center lg:contents">
-          <div className="site-header-account flex justify-start lg:order-3 lg:mt-auto">{accountBlock}</div>
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center lg:contents">
+          <div className="lg:hidden" aria-hidden />
           <Link
             href="/"
             aria-label="musui 홈"
@@ -78,7 +78,7 @@ export default function Header() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-graphic.png" alt="musui" style={{ height: 28, width: "auto" }} />
           </Link>
-          <div className="lg:hidden" aria-hidden />
+          <div className="site-header-account flex justify-end lg:order-3 lg:mt-auto lg:justify-start">{accountBlock}</div>
         </div>
         {/* 모바일: 2행 - Shop, Magazine, Tea Course, My Archive */}
         <nav className="site-nav flex items-center gap-6 lg:flex-initial lg:flex-col lg:items-stretch lg:justify-start">
