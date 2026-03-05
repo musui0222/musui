@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "musui",
   description: "발표용 프로토타입",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export const viewport: Viewport = {
