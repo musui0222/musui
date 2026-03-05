@@ -76,6 +76,7 @@ export default function ArchivePage() {
       itemIndex,
       isPublic: a.isPublic,
       item,
+      createdAt: a.createdAt,
     }))
   )
 
@@ -123,13 +124,14 @@ export default function ArchivePage() {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3">
-          {cards.map(({ archiveId, itemIndex, isPublic, item }) => (
+          {cards.map(({ archiveId, itemIndex, isPublic, item, createdAt }) => (
             <ArchiveCard
               key={`${archiveId}-${itemIndex}`}
               archiveId={archiveId}
               itemIndex={itemIndex}
               item={item}
               isPublic={isPublic}
+              createdAt={createdAt}
               onTogglePublic={(v) => onToggle(archiveId, v)}
             />
           ))}

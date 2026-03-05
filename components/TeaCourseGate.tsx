@@ -128,7 +128,7 @@ export default function TeaCourseGate() {
             href={`/teacourse/${courseId}`}
             className="inline-block w-full max-w-[280px] border border-black bg-black px-4 py-3 text-center text-[14px] font-medium text-white hover:bg-black/90"
           >
-            Go to Tea Course
+            티코스 시작하기
           </Link>
         </div>
       ) : !user ? (

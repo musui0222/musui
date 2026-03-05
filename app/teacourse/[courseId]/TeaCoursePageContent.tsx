@@ -2,12 +2,14 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useSearchParams } from "next/navigation"
 import { getCourseById, hasAccessForCourse } from "@/lib/courseRegistry"
 
 type Props = { courseId: string }
 
 export default function TeaCoursePageContent({ courseId }: Props) {
+  const router = useRouter()
   const course = getCourseById(courseId) ?? { id: courseId, title: "", oneLiner: "", poster: "" }
   const searchParams = useSearchParams()
   const codeFromUrl = searchParams.get("code")?.trim()?.toUpperCase() ?? ""
@@ -18,7 +20,6 @@ export default function TeaCoursePageContent({ courseId }: Props) {
   const [code, setCode] = React.useState("")
   const [redeemStatus, setRedeemStatus] = React.useState<"idle" | "loading" | "success" | "error">("idle")
   const [redeemError, setRedeemError] = React.useState<string | null>(null)
-  const [starting, setStarting] = React.useState(false)
 
   React.useEffect(() => {
     if (codeFromUrl) setCode(codeFromUrl)
@@ -76,27 +77,9 @@ export default function TeaCoursePageContent({ courseId }: Props) {
     }
   }
 
-  const handleStartRestart = async () => {
-    setStarting(true)
-    try {
-      const res = await fetch("/api/me/course-runs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ courseId: internalId }),
-      })
-      const data = await res.json()
-      if (res.ok && data.runId) {
-        window.location.href = `/sessions/${data.runId}`
-        return
-      }
-      if (res.status === 401) {
-        window.location.href = codeFromUrl
-          ? `/login?redirect=${encodeURIComponent(`/teacourse/${courseId}?code=${codeFromUrl}`)}`
-          : "/login"
-      }
-    } catch {
-      setStarting(false)
-    }
+  const handleGoToIntro = () => {
+    const base = `/teacourse/${courseId}/intro`
+    router.push(codeFromUrl ? `${base}?code=${codeFromUrl}` : base)
   }
 
   const redirectBase = codeFromUrl ? `/teacourse/${courseId}?code=${codeFromUrl}` : `/teacourse/${courseId}`
@@ -182,21 +165,24 @@ export default function TeaCoursePageContent({ courseId }: Props) {
   return (
     <div className="min-h-dvh bg-white text-black">
       <div className="mx-auto max-w-[480px] px-4 py-8">
-        <h1 className="font-noto-sans mb-6 text-[20px] font-semibold text-black">
-          Prepare for the Tea Course
-        </h1>
+        <h2 className="font-noto-sans mb-4 text-[16px] font-semibold text-black">
+          준비물
+        </h2>
+        <p className="mb-6 text-[14px] leading-relaxed text-black/85">
+          뜨거운 물, 차를 우릴 수 있는 도구 (도구가 없다면 티백으로도 즐길 수 있습니다.)
+        </p>
         <ul className="mb-8 space-y-3 text-[14px] leading-relaxed text-black/85">
-          <li>• Prepare the four teas and hot water</li>
-          <li>• You can record your impressions during the course</li>
-          <li>• Take your time and move slowly through the steps</li>
+          <li>• 차 4종과 뜨거운 물을 준비해 주세요.</li>
+          <li>• 티코스를 시작하면 각 코스에 맞는 음악이 재생됩니다. 상단의 음소거 버튼을 통해 음악을 끄거나 다시 켤 수 있습니다.</li>
+          <li>• <strong>무수이 타이머</strong> 버튼을 누르면 각 코스의 우림 시간이 자동으로 기록됩니다.</li>
+          <li>• 코스가 끝난 후 남긴 기록은 <strong>마이 아카이브</strong>에서 확인하실 수 있습니다.</li>
         </ul>
         <button
           type="button"
-          onClick={handleStartRestart}
-          disabled={starting}
-          className="w-full border border-black bg-black px-4 py-3 text-[14px] font-medium text-white hover:bg-black/90 disabled:opacity-60"
+          onClick={handleGoToIntro}
+          className="w-full border border-black bg-black px-4 py-3 text-[14px] font-medium text-white hover:bg-black/90"
         >
-          {starting ? "시작 중…" : hasRuns ? "Restart Tea Course" : "Start Tea Course"}
+          {hasRuns ? "티코스 다시 시작하기" : "티코스 시작하기"}
         </button>
       </div>
     </div>

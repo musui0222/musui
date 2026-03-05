@@ -15,6 +15,12 @@ function isManualItem(item: { courseId: string }) {
   return item.courseId === "manual"
 }
 
+function isIntroItem(item: { courseId: string }) {
+  return item.courseId === "altitude-intro"
+}
+
+const INTRO_COURSE_NAMES = ["백호은침", "요부후 봉황단총", "동방미인", "센차"]
+
 function formatDate(iso: string) {
   const d = new Date(iso)
   return d.toLocaleDateString("ko-KR", {
@@ -77,13 +83,134 @@ export default function ArchiveDetailPage() {
 
   const archiveForDate = archiveResolved
   const itemForDisplay = item
+  const isIntro = isIntroItem(itemForDisplay)
   const title = isManualItem(itemForDisplay)
     ? (itemForDisplay.teaName ?? (itemForDisplay.memo || "이름 없음"))
-    : courseTitle(itemForDisplay.courseId)
+    : isIntro
+      ? (itemForDisplay.teaName ?? itemForDisplay.mood ?? "고도(高度)")
+      : courseTitle(itemForDisplay.courseId)
   const category = isManualItem(itemForDisplay) ? (itemForDisplay.teaType ?? "—") : (itemForDisplay.mood || "—")
   const origin = isManualItem(itemForDisplay) ? (itemForDisplay.origin ?? "—") : "—"
   const brandOrPurchase = isManualItem(itemForDisplay) ? (itemForDisplay.brandOrPurchase ?? "—") : "—"
   const hasLaps = itemForDisplay.laps && itemForDisplay.laps.length > 0 && itemForDisplay.laps.some((s) => s > 0)
+  const courseRecords = isIntro && Array.isArray(itemForDisplay.infusionNotes) ? itemForDisplay.infusionNotes : []
+
+  if (isIntro) {
+    return (
+      <div className="min-h-dvh bg-white text-black">
+        <Header />
+        <main className="mx-auto max-w-[480px] px-4 py-8">
+          <Link href="/archive" className="text-[14px] text-black/70 hover:text-black">
+            ← My Archive
+          </Link>
+
+          <article className="mt-6 border border-black/12 bg-white">
+            <div className="flex items-start gap-2 border-b border-black/10 px-4 py-4">
+              <span className="mt-0.5 text-[10px] leading-none text-black" aria-hidden>■</span>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-[18px] font-medium tracking-[0.02em] text-black">{title}</h1>
+                <p className="mt-1 text-[13px] text-black/60">
+                  {formatDate(archiveForDate.createdAt)}
+                </p>
+              </div>
+            </div>
+
+            {/* 코스별 기록 */}
+            <div className="divide-y divide-black/10">
+              {INTRO_COURSE_NAMES.map((courseName, i) => {
+                const rec = (courseRecords[i] ?? {}) as {
+                  waterTempC?: number
+                  steepingTimeSec?: number
+                  body?: number
+                  aroma?: number
+                  aftertaste?: string
+                }
+                return (
+                  <div key={i} className="px-4 py-4">
+                    <h3 className="mb-3 text-[14px] font-semibold text-black">
+                      {i + 1}. {courseName}
+                    </h3>
+                    <dl className="space-y-2 text-[13px]">
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-black/50">물 온도</dt>
+                        <dd className="font-medium text-black">
+                          {rec.waterTempC != null ? `${rec.waterTempC}°C` : "—"}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-black/50">우림 시간</dt>
+                        <dd className="font-medium text-black">
+                          {(rec.steepingTimeSec ?? 0) > 0 ? `${rec.steepingTimeSec}초` : "—"}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-black/50">바디감</dt>
+                        <dd className="font-medium text-black">
+                          {rec.body != null ? rec.body : "—"}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-black/50">향미</dt>
+                        <dd className="font-medium text-black">
+                          {rec.aroma != null ? rec.aroma : "—"}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-black/50 mb-0.5">여운</dt>
+                        <dd className="font-medium text-black leading-relaxed">
+                          {(rec.aftertaste ?? "").trim() || "—"}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* 찻자리 사진 */}
+            {itemForDisplay.photoDataUrl && (
+              <div className="relative aspect-[4/3] w-full border-t border-black/10 bg-[#f5f5f5]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={itemForDisplay.photoDataUrl}
+                  alt="찻자리"
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            )}
+          </article>
+
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={async () => {
+                if (!confirm("이 기록을 삭제할까요?")) return
+                setDeleting(true)
+                try {
+                  const res = await fetch(`/api/archives/${archiveId}`, { method: "DELETE" })
+                  if (res.ok) {
+                    router.push("/archive")
+                    return
+                  }
+                } catch {
+                  // 로컬만 삭제
+                }
+                if (removeArchive(archiveId)) {
+                  router.push("/archive")
+                  return
+                }
+                setDeleting(false)
+              }}
+              disabled={deleting}
+              className="rounded-none border border-black/25 bg-white px-5 py-2.5 text-[13px] font-medium text-black/80 hover:border-black/50 hover:text-black disabled:opacity-50"
+            >
+              {deleting ? "삭제 중…" : "삭제하기"}
+            </button>
+          </div>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-dvh bg-white text-black">

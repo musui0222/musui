@@ -14,19 +14,33 @@
 }
 
 *{box-sizing:border-box}
-html,body{height:100%}
+html{
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+html,body{
+  height:100%;
+  width:100%;
+  min-width:0;
+  overflow-x:hidden;
+  font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+}
 
-.font-noto-sans{font-family:"Noto Sans KR",sans-serif}
+.font-pretendard,
+.font-noto-sans{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
 body{
   margin:0;
+  padding:0;
   background:var(--bg);
   color:var(--ink);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans KR", sans-serif;
   letter-spacing:-0.25px;
 }
+/* 긴 URL/텍스트가 가로 스크롤 유발 방지 */
+body{overflow-wrap:break-word}
 
 a{color:inherit; text-decoration:none}
 button, input, textarea{font:inherit}
+img,video{max-width:100%; height:auto}
 
 .m-wrap{
   max-width:var(--max);
@@ -156,6 +170,232 @@ button, input, textarea{font:inherit}
   font-size:12px;
   color:var(--muted);
   line-height:1.45;
+}
+
+/* ========================================
+   Tea Course 목록 / 프리뷰 (Tailwind 없이)
+   ======================================== */
+.tc-title {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 20px 0;
+}
+
+.tc-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .tc-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+    max-width: none;
+  }
+}
+
+.tc-card {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--hair2);
+  background: var(--bg);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.tc-card:hover {
+  opacity: 0.85;
+}
+
+.tc-thumbnail {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.tc-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tc-card-meta {
+  padding: 12px 0 16px;
+}
+
+.tc-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 6px 0;
+}
+
+.tc-card-time {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 2px 0;
+}
+
+.tc-card-teas {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* 프리뷰 모달 */
+.tc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.tc-modal {
+  background: var(--bg);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--hair2);
+}
+
+.tc-modal-poster {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  background: rgba(0, 0, 0, 0.04);
+  display: block;
+}
+
+.tc-modal-header {
+  padding: 20px 20px 12px;
+}
+
+.tc-modal-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 4px 0;
+}
+
+.tc-modal-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.tc-modal-desc {
+  padding: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.tc-modal-desc p {
+  margin: 0 0 12px 0;
+}
+
+.tc-modal-desc p:last-child {
+  margin-bottom: 0;
+}
+
+.tc-modal-desc strong {
+  font-weight: 700;
+}
+
+.tc-modal-divider {
+  height: 1px;
+  background: var(--hair2);
+  margin: 0 20px;
+}
+
+.tc-modal-code {
+  padding: 20px;
+}
+
+.tc-modal-code p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px 0;
+}
+
+.tc-modal-code input {
+  width: 100%;
+  border: 1px solid var(--hair);
+  background: var(--bg);
+  padding: 10px 12px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.tc-modal-code button {
+  width: 100%;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tc-modal-code button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tc-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.tc-modal-wrapper {
+  position: relative;
+}
+
+/* ========================================
+   모바일: 뷰포트에 맞게, 가로 스크롤 방지
+   ======================================== */
+.site-layout {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  min-width: 0;
+}
+
+.site-layout > div {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.site-layout main {
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* ========================================

@@ -87,6 +87,45 @@ export function addCourseSessionArchive(params: {
   return archive
 }
 
+/** 고도 인트로 코스 기록 1건을 아카이브에 추가 */
+export function addIntroArchive(params: {
+  teaCourseName: string
+  courseRecords: Array<{
+    waterTempC?: number
+    steepingTimeSec?: number
+    body?: number
+    aroma?: number
+    aftertaste?: string
+  }>
+  photoDataUrl?: string
+  isPublic?: boolean
+}): SessionArchive {
+  const archive: SessionArchive = {
+    id: `intro-${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    isPublic: params.isPublic ?? false,
+    items: [
+      {
+        courseId: "altitude-intro",
+        laps: params.courseRecords[0]?.steepingTimeSec != null
+          ? [params.courseRecords[0].steepingTimeSec]
+          : [0, 0, 0],
+        mood: params.teaCourseName,
+        memo: JSON.stringify({
+          type: "intro",
+          teaCourseName: params.teaCourseName,
+          courseRecords: params.courseRecords,
+        }),
+        teaName: params.teaCourseName,
+        photoDataUrl: params.photoDataUrl,
+        infusionNotes: params.courseRecords as InfusionNote[],
+      },
+    ],
+  }
+  archives.push(archive)
+  return archive
+}
+
 /** 수동 기록 1건을 아카이브에 추가 (차 이름·종류·산지·브랜드·우림시간·노트·사진·공개) */
 export function addManualArchive(params: {
   teaName: string

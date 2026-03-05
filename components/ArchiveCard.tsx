@@ -12,22 +12,81 @@ function isManualItem(item: BrewNote) {
   return item.courseId === "manual"
 }
 
+function isIntroItem(item: BrewNote) {
+  return item.courseId === "altitude-intro"
+}
+
+function formatDateTime(iso: string) {
+  const d = new Date(iso)
+  return d.toLocaleString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}
+
 type Props = {
   archiveId: string
   itemIndex: number
   item: BrewNote
   isPublic: boolean
+  createdAt?: string
   onTogglePublic: (v: boolean) => void
 }
 
-export function ArchiveCard({ archiveId, itemIndex, item, isPublic, onTogglePublic }: Props) {
+export function ArchiveCard({
+  archiveId,
+  itemIndex,
+  item,
+  isPublic,
+  createdAt,
+  onTogglePublic,
+}: Props) {
   const title = isManualItem(item)
     ? (item.teaName ?? (item.memo || "이름 없음"))
-    : courseTitle(item.courseId)
+    : isIntroItem(item)
+      ? (item.teaName ?? item.mood ?? "고도(高度)")
+      : courseTitle(item.courseId)
   const category = isManualItem(item) ? (item.teaType ?? "—") : (item.mood || "—")
   const origin = isManualItem(item) ? (item.origin ?? "—") : "—"
   const brandOrPurchase = isManualItem(item) ? (item.brandOrPurchase ?? "—") : "—"
   const imageUrl = item.photoDataUrl ?? null
+
+  if (isIntroItem(item)) {
+    return (
+      <Link
+        href={`/archive/${archiveId}/${itemIndex}`}
+        className="flex aspect-[3/4] flex-col overflow-hidden border border-black/12 bg-white transition-shadow hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)]"
+      >
+        {/* 썸네일 */}
+        <div className="relative min-h-0 flex-1 bg-[#f5f5f5]">
+          {imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={imageUrl}
+              alt=""
+              className="h-full w-full object-cover object-center"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-[10px] tracking-[0.08em] text-black/35">
+              찻자리 사진
+            </div>
+          )}
+        </div>
+        {/* 티코스 이름 + 날짜/시간 */}
+        <div className="shrink-0 border-t border-black/10 px-2.5 py-2">
+          <h2 className="truncate text-[12px] font-medium tracking-[0.02em] text-black">
+            {title}
+          </h2>
+          {createdAt && (
+            <p className="mt-0.5 text-[10px] text-black/55">{formatDateTime(createdAt)}</p>
+          )}
+        </div>
+      </Link>
+    )
+  }
 
   return (
     <Link
