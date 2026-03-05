@@ -5,7 +5,8 @@ import { getSupabaseConfigOrNull } from "@/lib/supabase/env"
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get("code")
-  const redirectTo = requestUrl.searchParams.get("redirect_to") ?? requestUrl.origin
+  const redirectParam = requestUrl.searchParams.get("redirect_to") ?? "/"
+  const redirectTo = redirectParam.startsWith("/") ? `${requestUrl.origin}${redirectParam}` : redirectParam
   const response = NextResponse.redirect(redirectTo)
 
   const config = getSupabaseConfigOrNull()
