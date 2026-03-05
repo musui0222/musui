@@ -23,11 +23,11 @@ html,body{
   width:100%;
   min-width:0;
   overflow-x:hidden;
-  font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-family:"Manrope",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
 }
 
 .font-pretendard,
-.font-noto-sans{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+.font-noto-sans{font-family:"Manrope",-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
 body{
   margin:0;
   padding:0;
@@ -176,7 +176,7 @@ img,video{max-width:100%; height:auto}
    Tea Course 목록 / 프리뷰 (Tailwind 없이)
    ======================================== */
 .tc-title {
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -482,7 +482,7 @@ img,video{max-width:100%; height:auto}
   }
 
   /* 인증(내정보/로그아웃): 하단 */
-  .site-layout .site-header-inner > div:last-child {
+  .site-layout .site-header-account {
     order: 2;
     margin-top: auto;
     flex-direction: column;

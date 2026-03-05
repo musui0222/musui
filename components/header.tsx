@@ -6,7 +6,9 @@ import Link from "next/link"
 type AuthUser = { id: string; email: string | null; displayName?: string | null } | null
 
 /**
- * Header: Logo (top) – Navigation (center) – Account info (right)
+ * Header
+ * 모바일: 1행 로고+회원가입/로그인, 2행 Shop/Magazine/Tea Course/My Archive
+ * 데스크톱: 좌측 사이드바 (로고 → 네비 → 계정)
  */
 export default function Header() {
   const [user, setUser] = React.useState<AuthUser>(null)
@@ -22,20 +24,64 @@ export default function Header() {
       .finally(() => setLoading(false))
   }, [])
 
+  const accountBlock = (
+    <div className="flex shrink-0 items-center gap-2 text-[10px] text-black/60 lg:mt-auto lg:flex-col lg:items-start lg:gap-1 lg:text-[11px]">
+      {loading ? (
+        <span className="text-black/50">...</span>
+      ) : user ? (
+        <>
+          <Link
+            href="/profile"
+            className="max-w-[100px] truncate text-black/65 hover:underline"
+            title={user.email ?? undefined}
+          >
+            {user.displayName || user.email}님
+          </Link>
+          <form action="/api/auth/signout" method="POST" className="m-0 inline lg:block">
+            <button
+              type="submit"
+              className="m-0 inline leading-none text-black/60 hover:underline lg:block lg:text-left"
+            >
+              로그아웃
+            </button>
+          </form>
+        </>
+      ) : (
+        <>
+          <Link
+            href="/signup"
+            className="block w-fit rounded-full bg-black px-2.5 py-1 text-[11px] leading-none text-white"
+            style={{ color: "#fff" }}
+          >
+            Musui 회원가입
+          </Link>
+          <Link href="/login" className="block text-left text-black/75 hover:underline">
+            로그인
+          </Link>
+        </>
+      )}
+    </div>
+  )
+
   return (
     <header className="site-header border-b border-black/15 lg:border-b-0 lg:border-r lg:border-black/15">
-      <div className="site-header-inner mx-auto flex max-w-[480px] flex-col gap-6 px-3 py-2.5 pb-4 lg:max-w-none lg:flex-col lg:items-stretch lg:gap-0 lg:py-2.5">
+      <div className="site-header-inner mx-auto flex max-w-[480px] flex-col gap-4 px-3 py-2.5 pb-4 lg:max-w-none lg:flex-col lg:items-stretch lg:gap-0 lg:py-2.5">
         <div className="hidden" aria-hidden />
-        <Link
-          href="/"
-          aria-label="musui 홈"
-          className="flex shrink-0 items-center justify-center self-center lg:justify-start lg:self-auto lg:mb-2"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-graphic.png" alt="musui" style={{ height: 28, width: "auto" }} />
-        </Link>
-        <div className="flex items-center justify-between gap-6 lg:contents">
-          <nav className="site-nav flex flex-1 items-center justify-center lg:flex-initial lg:flex-col lg:items-stretch lg:justify-start">
+        {/* 모바일: 1행 - 로고 + 회원가입/로그인 | 데스크톱: 로고 */}
+        <div className="flex items-center gap-3 lg:contents">
+          <Link
+            href="/"
+            aria-label="musui 홈"
+            className="flex shrink-0 items-center justify-center self-center lg:justify-start lg:self-auto lg:mb-2"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-graphic.png" alt="musui" style={{ height: 28, width: "auto" }} />
+          </Link>
+          <div className="site-header-account lg:order-3 lg:mt-auto">{accountBlock}</div>
+        </div>
+        <div className="h-px bg-black/15 lg:hidden" />
+        {/* 모바일: 2행 - Shop, Magazine, Tea Course, My Archive */}
+        <nav className="site-nav flex items-center gap-6 lg:flex-initial lg:flex-col lg:items-stretch lg:justify-start">
           <div className="flex items-center gap-6 lg:flex-col lg:items-stretch lg:gap-0">
             <a
               href="https://musui.kr"
@@ -55,45 +101,7 @@ export default function Header() {
               My Archive
             </Link>
           </div>
-          <div className="h-px bg-black/15 lg:hidden" />
-          </nav>
-          <div className="flex shrink-0 items-center gap-2 text-[10px] text-black/60 lg:mt-auto lg:flex-col lg:items-start lg:gap-1 lg:text-[11px]">
-          {loading ? (
-            <span className="text-black/50">...</span>
-          ) : user ? (
-            <>
-              <Link
-                href="/profile"
-                className="max-w-[100px] truncate text-black/65 hover:underline"
-                title={user.email ?? undefined}
-              >
-                {user.displayName || user.email}님
-              </Link>
-              <form action="/api/auth/signout" method="POST" className="m-0 inline lg:block">
-                <button
-                  type="submit"
-                  className="m-0 inline leading-none text-black/60 hover:underline lg:block lg:text-left"
-                >
-                  로그아웃
-                </button>
-              </form>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/signup"
-                className="block w-fit rounded-full bg-black px-2.5 py-1 text-[11px] leading-none text-white"
-                style={{ color: "#fff" }}
-              >
-                Musui 회원가입
-              </Link>
-              <Link href="/login" className="block text-left text-black/75 hover:underline">
-                로그인
-              </Link>
-            </>
-          )}
-          </div>
-        </div>
+        </nav>
       </div>
     </header>
   )
