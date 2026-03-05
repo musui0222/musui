@@ -81,7 +81,7 @@ export default function MagazinePage() {
     <div className="min-h-dvh bg-white text-black">
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-4">
-        <h1 className="font-noto-sans mb-3 text-[16px] font-semibold tracking-[0.12em] uppercase text-black">
+        <h1 className="font-manrope mb-3 text-[16px] font-semibold tracking-[0.12em] uppercase text-black">
           Magazine
         </h1>
         <div className="grid grid-cols-2 gap-3">

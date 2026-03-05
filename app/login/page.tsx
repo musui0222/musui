@@ -57,7 +57,7 @@ function LoginForm() {
     <div className="min-h-dvh bg-white text-black">
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-8">
-        <h1 className="mb-6 text-[18px] font-semibold text-black">로그인</h1>
+        <h1 className="font-manrope mb-6 text-[18px] font-semibold text-black">로그인</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="mb-1 block text-[11px] font-medium text-black/70">이메일</label>
@@ -82,9 +82,14 @@ function LoginForm() {
             />
           </div>
           {error && (
-            <p className="text-[12px] text-red-600" role="alert">
-              {error}
-            </p>
+            <div className="space-y-2" role="alert">
+              <p className="text-[12px] text-red-600">{error}</p>
+              <p>
+                <Link href="/forgot-password" className="text-[12px] text-black/70 underline hover:text-black">
+                  비밀번호 찾기
+                </Link>
+              </p>
+            </div>
           )}
           <button
             type="submit"

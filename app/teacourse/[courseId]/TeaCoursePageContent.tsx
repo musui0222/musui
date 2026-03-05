@@ -106,7 +106,7 @@ export default function TeaCoursePageContent({ courseId }: Props) {
               />
             )}
             <div className="border-t border-black/10 p-4">
-              <h2 className="font-noto-sans text-[18px] font-semibold text-black">{course.title}</h2>
+              <h2 className="font-manrope text-[18px] font-semibold text-black">{course.title}</h2>
               <p className="mt-1 text-[13px] text-black/80">{course.oneLiner}</p>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default function TeaCoursePageContent({ courseId }: Props) {
   return (
     <div className="min-h-dvh bg-white text-black">
       <div className="mx-auto max-w-[480px] px-4 py-8">
-        <h2 className="font-noto-sans mb-4 text-[16px] font-semibold text-black">
+        <h2 className="font-manrope mb-4 text-[16px] font-semibold text-black">
           준비물
         </h2>
         <p className="mb-6 text-[14px] leading-relaxed text-black/85">

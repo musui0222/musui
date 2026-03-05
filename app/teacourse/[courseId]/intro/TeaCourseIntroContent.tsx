@@ -297,7 +297,7 @@ export default function TeaCourseIntroContent({ courseId, internalId }: Props) {
       <div className="min-h-dvh bg-white text-black">
         <div className="mx-auto max-w-[480px] px-4 py-8">
           <div className="mb-6">
-            <h2 className="font-noto-sans text-[18px] font-semibold text-black">코스 기록</h2>
+            <h2 className="font-manrope text-[18px] font-semibold text-black">코스 기록</h2>
           </div>
           <div className="space-y-4">
             {COURSE_INTROS.map((course, i) => {
@@ -307,7 +307,7 @@ export default function TeaCourseIntroContent({ courseId, internalId }: Props) {
                   key={course.title}
                   className="border border-black/15 bg-black/[0.02] p-4"
                 >
-                  <h3 className="font-noto-sans mb-3 text-[14px] font-semibold text-black">
+                  <h3 className="font-manrope mb-3 text-[14px] font-semibold text-black">
                     {i + 1}. {course.title}
                   </h3>
                   <dl className="space-y-2 text-[13px]">
@@ -410,7 +410,7 @@ export default function TeaCourseIntroContent({ courseId, internalId }: Props) {
           >
             ‹
           </button>
-          <h2 className="font-noto-sans min-w-0 flex-1 text-[18px] font-semibold text-black">
+          <h2 className="font-manrope min-w-0 flex-1 text-[18px] font-semibold text-black">
             {intro.title}
           </h2>
         </div>
@@ -489,7 +489,7 @@ export default function TeaCourseIntroContent({ courseId, internalId }: Props) {
 
         {/* How to Brew - 사각형 박스 */}
         <div className="mb-6 border border-black/15 bg-black/[0.02] p-4">
-          <h3 className="font-noto-sans mb-3 text-[14px] font-semibold text-black">
+          <h3 className="font-manrope mb-3 text-[14px] font-semibold text-black">
             {intro.howToBrew.title}
           </h3>
           <ul className="space-y-2 text-[13px] leading-relaxed text-black/85">
@@ -502,7 +502,7 @@ export default function TeaCourseIntroContent({ courseId, internalId }: Props) {
         {/* Tip - 사각형 박스 (있을 때만) */}
         {intro.tip && (
           <div className="mb-8 border border-black/15 bg-black/[0.02] p-4">
-            <h3 className="font-noto-sans mb-2 text-[14px] font-semibold text-black">Tip</h3>
+            <h3 className="font-manrope mb-2 text-[14px] font-semibold text-black">Tip</h3>
             <p className="text-[13px] leading-relaxed text-black/85">
               {intro.tip.split(/\*\*(.*?)\*\*/g).map((part, j) =>
                 j % 2 === 1 ? <strong key={j}>{part}</strong> : part

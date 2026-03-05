@@ -87,17 +87,17 @@ export default function Header() {
               href="https://musui.kr"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[13px] font-medium hover:underline lg:py-2"
+              className="font-manrope text-[13px] font-medium hover:underline lg:py-2"
             >
               Shop
             </a>
-            <Link href="/magazine" className="text-[13px] font-medium hover:underline lg:py-2">
+            <Link href="/magazine" className="font-manrope text-[13px] font-medium hover:underline lg:py-2">
               Magazine
             </Link>
-            <Link href="/sessions" className="whitespace-nowrap text-[13px] font-medium hover:underline lg:py-2">
+            <Link href="/sessions" className="font-manrope whitespace-nowrap text-[13px] font-medium hover:underline lg:py-2">
               Tea Course
             </Link>
-            <Link href="/archive" className="whitespace-nowrap text-[13px] font-medium hover:underline lg:py-2">
+            <Link href="/archive" className="font-manrope whitespace-nowrap text-[13px] font-medium hover:underline lg:py-2">
               My Archive
             </Link>
           </div>

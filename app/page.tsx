@@ -60,7 +60,7 @@ export default function HomePage() {
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-8">
         <section className="mb-10">
-          <h2 className="font-noto-sans mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
+          <h2 className="font-manrope mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
             Tea
           </h2>
           <div className="grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3">
@@ -87,7 +87,7 @@ export default function HomePage() {
         </section>
 
         <section>
-          <h2 className="font-noto-sans mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
+          <h2 className="font-manrope mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
             Tea Course
           </h2>
           <div className="grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3">

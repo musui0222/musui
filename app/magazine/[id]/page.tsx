@@ -35,7 +35,7 @@ export default async function MagazinePostPage({
               ■
             </span>
             <div className="flex-1 min-w-0">
-              <h1 className="text-[18px] font-medium tracking-[0.02em] text-black">
+              <h1 className="font-manrope text-[18px] font-medium tracking-[0.02em] text-black">
                 {post.titleValue}
               </h1>
             </div>

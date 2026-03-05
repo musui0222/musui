@@ -65,7 +65,7 @@ function TeaPageContent({
           {tea.altitudeRange}
         </p>
       )}
-      <h2 className="font-noto-sans mb-1 text-[20px] font-semibold text-black">
+      <h2 className="font-manrope mb-1 text-[20px] font-semibold text-black">
         {tea.name}
       </h2>
       <p className="mb-4 text-[12px] text-black/60">{tea.origin}</p>
@@ -260,7 +260,7 @@ export function TeaCourseSessionContent({
       <div className="min-h-dvh bg-white text-black">
         <Header />
         <main className="mx-auto max-w-[480px] px-4 py-8">
-          <h1 className="font-noto-sans mb-1 text-[18px] font-semibold text-black">
+          <h1 className="font-manrope mb-1 text-[18px] font-semibold text-black">
             {courseTitle}
           </h1>
           <p className="mb-2 text-[13px] text-black/80">{courseOneLiner}</p>
@@ -316,7 +316,7 @@ export function TeaCourseSessionContent({
       <div className="min-h-dvh bg-white text-black">
         <Header />
         <main className="mx-auto max-w-[480px] px-4 py-6 pb-12">
-          <h2 className="font-noto-sans mb-4 text-[16px] font-semibold text-black">
+          <h2 className="font-manrope mb-4 text-[16px] font-semibold text-black">
             기록 요약
           </h2>
           <div className="mb-8 space-y-4">

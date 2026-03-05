@@ -144,7 +144,7 @@ function SignupForm() {
       <div className="min-h-dvh bg-white text-black">
         <Header />
         <main className="mx-auto max-w-[480px] px-4 py-8">
-          <h1 className="mb-4 text-[18px] font-semibold text-black">가입 완료</h1>
+          <h1 className="font-manrope mb-4 text-[18px] font-semibold text-black">가입 완료</h1>
           <p className="mb-6 text-[13px] text-black/80">
             가입한 이메일로 확인 메일을 보냈을 수 있습니다. 링크를 클릭한 뒤 로그인해 주세요.
           </p>
@@ -163,7 +163,7 @@ function SignupForm() {
     <div className="min-h-dvh bg-white text-black">
       <Header />
       <main className="mx-auto max-w-[480px] px-4 py-8">
-        <h1 className="mb-6 text-[18px] font-semibold text-black">회원가입</h1>
+        <h1 className="font-manrope mb-6 text-[18px] font-semibold text-black">회원가입</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="mb-1 block text-[11px] font-medium text-black/70">이메일</label>

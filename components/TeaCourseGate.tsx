@@ -79,7 +79,7 @@ export default function TeaCourseGate() {
   if (entitled === null) {
     return (
       <section>
-        <h1 className="font-noto-sans mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
+        <h1 className="font-manrope mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
           Tea Course
         </h1>
         <p className="text-[13px] text-black/60">권한 확인 중...</p>
@@ -89,7 +89,7 @@ export default function TeaCourseGate() {
 
   return (
     <section>
-      <h1 className="font-noto-sans mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
+      <h1 className="font-manrope mb-4 text-[16px] font-semibold tracking-[0.14em] uppercase text-black">
         Tea Course
       </h1>
 
@@ -104,7 +104,7 @@ export default function TeaCourseGate() {
           />
         )}
         <div className="border-t border-black/10 p-4">
-          <h2 className="font-noto-sans text-[18px] font-semibold text-black">
+          <h2 className="font-manrope text-[18px] font-semibold text-black">
             {course.title}
           </h2>
           <p className="mt-1 text-[13px] text-black/80">{course.oneLiner}</p>

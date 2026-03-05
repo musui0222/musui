@@ -108,7 +108,7 @@ export default function ArchiveDetailPage() {
             <div className="flex items-start gap-2 border-b border-black/10 px-4 py-4">
               <span className="mt-0.5 text-[10px] leading-none text-black" aria-hidden>■</span>
               <div className="min-w-0 flex-1">
-                <h1 className="text-[18px] font-medium tracking-[0.02em] text-black">{title}</h1>
+                <h1 className="font-manrope text-[18px] font-medium tracking-[0.02em] text-black">{title}</h1>
                 <p className="mt-1 text-[13px] text-black/60">
                   {formatDate(archiveForDate.createdAt)}
                 </p>
@@ -227,7 +227,7 @@ export default function ArchiveDetailPage() {
               ■
             </span>
             <div className="flex-1 min-w-0">
-              <h1 className="text-[18px] font-medium tracking-[0.02em] text-black">
+              <h1 className="font-manrope text-[18px] font-medium tracking-[0.02em] text-black">
                 {title}
               </h1>
             </div>

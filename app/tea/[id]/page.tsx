@@ -92,7 +92,7 @@ export default async function TeaDetailPage({
 
           {/* 상세 정보 + 어코디언 */}
           <div>
-            <h1 className="text-[20px] font-semibold tracking-[0.02em] text-black">{tea.title}</h1>
+            <h1 className="font-manrope text-[20px] font-semibold tracking-[0.02em] text-black">{tea.title}</h1>
             <p className="mt-1 text-[12px] tracking-[0.06em] text-black/80">
               우롱차 (Oolong) · {tea.year}
             </p>
@@ -165,7 +165,7 @@ export default async function TeaDetailPage({
 
         {/* 스크롤 시 보이는 섹션: 사계절이 모두 봄 */}
         <section className="mt-12 pt-8">
-          <h2 className="text-[18px] font-semibold tracking-[0.02em] text-black">사계절이 모두 봄</h2>
+          <h2 className="font-manrope text-[18px] font-semibold tracking-[0.02em] text-black">사계절이 모두 봄</h2>
           <div className="mt-4 space-y-4 text-[13px] leading-relaxed tracking-[0.02em] text-black">
             <p>
               사계춘(四季春)은 &apos;사계절이 모두 봄과 같다&apos;는 뜻을 가진 차나무 품종입니다.

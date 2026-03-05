@@ -29,6 +29,10 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
         />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+        />
       </head>
       <body style={{ margin: 0 }}>
         <div className="site-layout">{children}</div>

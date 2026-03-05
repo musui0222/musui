@@ -15,7 +15,7 @@ export default function TeaCourseList() {
 
   return (
     <section>
-      <h1 className="tc-title font-noto-sans">TEA COURSE</h1>
+      <h1 className="tc-title font-manrope">TEA COURSE</h1>
       <div className="tc-list">
         {courseIds.map((id) => {
           const course = getCourseById(id)
