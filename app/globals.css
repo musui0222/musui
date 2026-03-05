@@ -492,10 +492,6 @@ img,video{max-width:100%; height:auto}
     display: block;
   }
 
-  .site-layout .site-nav > div:last-child {
-    display: none;
-  }
-
   /* 인증(내정보/로그아웃): 하단 */
   .site-layout .site-header-account {
     order: 2;
