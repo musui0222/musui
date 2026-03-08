@@ -38,12 +38,16 @@ export default function TeaCourseList() {
               <div className="tc-thumbnail">
                 {course.poster && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={course.poster} alt="" />
+                  <img
+                    src={course.poster}
+                    alt=""
+                    className="tc-thumbnail-img w-full h-auto object-contain object-center"
+                  />
                 )}
               </div>
               <div className="tc-card-meta">
                 <p className="tc-card-name">{course.title}</p>
-                <p className="tc-card-time">{course.totalMinutes}분</p>
+                <p className="tc-card-time">{course.totalMinutes} minutes</p>
                 <p className="tc-card-teas">4종의 차</p>
               </div>
             </div>

@@ -50,22 +50,22 @@ export function MagazinePostCard({ post, href }: Props) {
         ) : null}
       </div>
 
-      <div className="grid shrink-0 grid-cols-[auto_1fr] gap-x-1.5 gap-y-0.5 border-b border-black/10 px-2.5 py-1.5 text-[10px]">
+      <div className="grid shrink-0 grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 border-b border-black/10 px-3 py-1.5 text-[10px]">
         <span className="text-black/50">Category</span>
-        <span className="truncate text-right font-medium text-black">{category || "—"}</span>
+        <span className="truncate text-left font-medium text-black">{category || "—"}</span>
         <span className="text-black/50">Origin</span>
-        <span className="truncate text-right font-medium text-black">{origin || "—"}</span>
+        <span className="truncate text-left font-medium text-black">{origin || "—"}</span>
         <span className="text-black/50">Brand or Purchase</span>
-        <span className="truncate text-right font-medium text-black">{brandOrPurchase || "—"}</span>
+        <span className="truncate text-left font-medium text-black">{brandOrPurchase || "—"}</span>
       </div>
 
-      <div className="relative min-h-0 flex-1 bg-[#f5f5f5]">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-[#f5f5f5]">
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imageUrl}
             alt=""
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-contain object-center"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[10px] tracking-[0.08em] text-black/35">

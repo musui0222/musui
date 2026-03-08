@@ -33,9 +33,9 @@ export type TeaCourseSession = {
 export const TEA_COURSE_SESSIONS: TeaCourseSession[] = [
   {
     id: "session-1",
-    title: "고도(高度)",
-    oneLiner: "고산에서 내려오는 차의 여정",
-    totalMinutes: 30,
+    title: "고도를 따라서",
+    oneLiner: "Musui Tea course 01",
+    totalMinutes: 40,
     concept:
       "이 코스는 해안 평지에서 시작해 2,000m 이상의 고산까지, 고도가 높아질수록 향의 밀도와 공기의 질감이 어떻게 달라지는지 경험하도록 설계되었습니다.",
     teas: [

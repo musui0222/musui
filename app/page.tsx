@@ -11,9 +11,12 @@ const TEA: Item[] = [
 ]
 
 const TEA_COURSE: Item[] = [
-  { id: "course-1", title: "Tea Course 01", subtitle: "20–30 min" },
-  { id: "course-2", title: "Tea Course 02", subtitle: "Guided session" },
-  { id: "course-3", title: "Tea Course 03", subtitle: "Archive-ready" },
+  {
+    id: "altitude",
+    title: "고도를 따라서",
+    subtitle: "Musui Tea course 01\n40 minutes",
+    poster: "/posters/teacourse-godo.png",
+  },
 ]
 
 function PosterCard({
@@ -35,7 +38,7 @@ function PosterCard({
           {item.title}
         </div>
         {item.subtitle && (
-          <div className="mt-0.5 text-[11px] tracking-[0.04em] text-black/55">
+          <div className="mt-0.5 whitespace-pre-line text-[11px] tracking-[0.04em] text-black/55">
             {item.subtitle}
           </div>
         )}
@@ -95,8 +98,19 @@ export default function HomePage() {
               <PosterCard
                 key={item.id}
                 item={item}
-                href={`/session?course=${encodeURIComponent(item.id)}`}
-                posterNode={<PosterPlaceholder label="TEA COURSE POSTER" />}
+                href={`/teacourse/${item.id}`}
+                posterNode={
+                  item.poster ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.poster}
+                      alt=""
+                      className="block w-full object-contain"
+                    />
+                  ) : (
+                    <PosterPlaceholder label="TEA COURSE POSTER" />
+                  )
+                }
               />
             ))}
           </div>

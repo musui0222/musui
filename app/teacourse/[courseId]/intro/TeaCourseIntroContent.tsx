@@ -30,8 +30,8 @@ const COURSE_INTROS: CourseIntro[] = [
   {
     title: "백호은침",
     images: [
-      { id: "mountain", label: "산지 사진", src: "" },
-      { id: "leaves", label: "찻잎 사진", src: "" },
+      { id: "mountain", label: "산지 사진", src: "/posters/teacourse-plantation.png" },
+      { id: "leaves", label: "찻잎 사진", src: "/posters/teacourse-tea-leaves.png" },
       { id: "liquor", label: "찻물 사진", src: "" },
     ],
     description: [
@@ -57,7 +57,7 @@ const COURSE_INTROS: CourseIntro[] = [
   {
     title: "요부후 봉황단총",
     images: [
-      { id: "mountain", label: "산지 사진", src: "" },
+      { id: "mountain", label: "산지 사진", src: "/posters/teacourse-plantation-2.png" },
       { id: "leaves", label: "찻잎 사진", src: "" },
       { id: "liquor", label: "찻물 사진", src: "" },
     ],
@@ -82,7 +82,7 @@ const COURSE_INTROS: CourseIntro[] = [
     title: "동방미인",
     images: [
       { id: "mountain", label: "산지 사진", src: "" },
-      { id: "leaves", label: "찻잎 사진", src: "" },
+      { id: "leaves", label: "찻잎 사진", src: "/posters/teacourse-tea-leaves-3.png" },
       { id: "liquor", label: "찻물 사진", src: "" },
     ],
     description: [
@@ -109,7 +109,7 @@ const COURSE_INTROS: CourseIntro[] = [
     title: "센차",
     images: [
       { id: "mountain", label: "산지 사진", src: "" },
-      { id: "leaves", label: "찻잎 사진", src: "" },
+      { id: "leaves", label: "찻잎 사진", src: "/posters/teacourse-sencha-leaves.png" },
       { id: "liquor", label: "찻물 사진", src: "" },
     ],
     description: [
