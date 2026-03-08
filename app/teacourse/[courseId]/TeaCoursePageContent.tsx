@@ -119,7 +119,7 @@ export default function TeaCoursePageContent({ courseId }: Props) {
               <div className="mt-4 flex justify-center gap-3">
                 <Link
                   href={`/login?redirect=${encodeURIComponent(redirectBase)}`}
-                  className="border border-black bg-black px-4 py-2 text-[13px] font-medium text-white"
+                  className="tc-btn-login"
                 >
                   로그인
                 </Link>

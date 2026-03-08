@@ -84,14 +84,7 @@ export default function TeaCourseCodeBlock({ courseId, codeFromUrl = "" }: Props
         <div style={{ display: "flex", gap: 12, marginTop: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <Link
             href={codeFromUrl ? `/login?redirect=${encodeURIComponent(`/teacourse/${courseId}?code=${codeFromUrl}`)}` : "/login"}
-            style={{
-              border: "1px solid var(--ink)",
-              background: "var(--ink)",
-              color: "#fff",
-              padding: "8px 16px",
-              fontSize: 13,
-              fontWeight: 500,
-            }}
+            className="tc-btn-login"
           >
             로그인
           </Link>
@@ -134,17 +127,7 @@ export default function TeaCourseCodeBlock({ courseId, codeFromUrl = "" }: Props
         <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--hair2)" }}>
           <Link
             href={`/teacourse/${courseId}`}
-            style={{
-              display: "block",
-              width: "100%",
-              border: "1px solid var(--ink)",
-              background: "var(--ink)",
-              color: "#fff",
-              padding: "12px 16px",
-              fontSize: 14,
-              fontWeight: 500,
-              textAlign: "center",
-            }}
+            className="tc-btn-login block"
           >
             티코스 시작하기
           </Link>

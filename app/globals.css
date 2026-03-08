@@ -304,12 +304,12 @@ img,video{max-width:100%; height:auto}
 .tc-modal-desc {
   padding: 20px;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.9;
   color: var(--ink);
 }
 
 .tc-modal-desc p {
-  margin: 0 0 12px 0;
+  margin: 0 0 18px 0;
 }
 
 .tc-modal-desc p:last-child {
@@ -328,6 +328,27 @@ img,video{max-width:100%; height:auto}
 
 .tc-modal-code {
   padding: 20px;
+}
+
+/* 검정 배경 버튼 - 흰색 글씨 (a 태그 color:inherit 오버라이드) */
+.tc-btn-login,
+.tc-modal-code .tc-btn-login {
+  background: var(--ink);
+  color: #fff !important;
+  border: 1px solid var(--ink);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.tc-modal-code .tc-btn-login.block {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .tc-modal-code p {
